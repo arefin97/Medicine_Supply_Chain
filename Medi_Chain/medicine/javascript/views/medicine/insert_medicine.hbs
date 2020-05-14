@@ -1,0 +1,47 @@
+{{#*inline "head-block"}}
+<!--<link rel="stylesheet" href="some-other-styles.css">-->
+{{/inline}}
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h1>Insert Medicine</h1>
+        {{#if message}}
+        <div class="alert alert-danger">
+
+            <p>{{this.message}}</p>
+
+        </div>
+        {{/if}}
+        <form action="/insertMedicine" method="POST">
+            <div class="form-group">
+                 <label for="name">Name:</label>
+            <input type="text"name="name"id="name"class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id">Id:</label>
+            <input type="text"name="id"id="id" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="cStage">Currstage:</label>
+            <input type="text"name="cStage"id="cStage" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="company">PCompany:</label>
+            <input type="text"name="company"id="company" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="pDate">Production Date:</label>
+            <input type="text"name="pDate"id="pDate" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="expDate">Expire Date:</label>
+            <input type="text"name="expDate"id="expDate" class="form-control">
+            </div>
+            <div class="form-group">           
+            <input type="file" name="img" id="img"accept="image/*">
+            </div>
+           <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button type="submit" class="btn btn-primary">Insert</button>
+        </form>
+
+    </div>
+</div>

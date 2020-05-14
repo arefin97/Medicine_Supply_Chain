@@ -1,0 +1,44 @@
+{{#*inline "head-block"}}
+<!--<link rel="stylesheet" href="some-other-styles.css">-->
+{{/inline}}
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h1>Sign Up</h1>
+        {{#if message}}
+        <div class="alert alert-danger">
+
+            <p>{{this.message}}</p>
+
+        </div>
+        {{/if}}
+        <form action="/user/signup" method="POST">
+            <div class="form-group">
+                <label for="id">NID</label>
+                <input type="text" id="id" name="id" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="userType">UserType</label>
+                <input type="text" id="userType" name="userType" class="form-control">
+            </div>
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+
+    </div>
+</div>

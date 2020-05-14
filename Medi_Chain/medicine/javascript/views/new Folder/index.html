@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+            body {
+              background-image: url("Medicine.png");
+              background-position: 50% 50%;
+             
+            }
+            </style>
+
+</head>
+<body>
+
+<div>
+    <center> <a href="/viewAllMedicine"><button>View All Medicine</button></a> </center>
+</div>
+<br>
+<br>
+<br>
+
+    <div>
+        <center> <u>Insert A Medicine</u> 
+        <form action="/insertMedicine" method="POST">
+            <label for="name">Name:</label>
+            <input type="text"name="name"id="name"><br><br>
+
+            <label for="id">Id:</label>
+            <input type="text"name="id"id="id"><br><br>
+
+            <label for="cStage">Currstage:</label>
+            <input type="text"name="cStage"id="cStage"><br><br>
+
+            <label for="company">PCompany:</label>
+            <input type="text"name="company"id="company"><br><br>
+
+            <label for="pDate">Pdate:</label>
+            <input type="text"name="pDate"id="pDate"><br><br>
+
+            <label for="expDate">Expdate:</label>
+            <input type="text"name="expDate"id="expDate"><br><br>
+
+            <input type="submit" name="submit" id="submit">
+
+        </form>
+    </center>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div>
+            <center> <u>Search Medicine By Id</u> 
+            <form action="/queryMedicineById" method="POST">
+    
+                <label for="id">Id:</label>
+                <input type="text"name="id"id="id"><br><br>
+    
+                <input type="submit" name="submit" id="submit">
+    
+            </form>
+        </center>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div>
+                <center> <u>Search Medicine By Production Company</u> 
+                <form action="">
+        
+                    <label for="company">PCompany:</label>
+                    <input type="text"name="company"id="company"><br><br>
+        
+        
+                    <input type="submit" name="submit" id="submit">
+        
+                </form>
+            </center>
+            </div>
+
+</body>
+</html>
