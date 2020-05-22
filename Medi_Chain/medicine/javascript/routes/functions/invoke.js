@@ -45,9 +45,10 @@ async function main() {
 
        // await contract.submitTransaction('createMedicine', 'm1','3', 'Napa', 'ACI', '12-12-18', '31-12-19','ACII')
         //await contract.submitTransaction('createMedicine', 'm2','5', 'Exel', 'Beximco', '1-11-18', '3-10-19','Bexx')
-        await contract.submitTransaction('createUser', 'mm', '0001', 'zaman', 'gmail', '###', '01623', 'customer')
+       // await contract.submitTransaction('createUser', 'mm', '0001', 'zaman', 'gmail', '###', '01623', 'customer')
        // await contract.submitTransaction('createUser',key, id,name,email, pass, phone,userType)
-        console.log('Transaction has been submitted');
+     await contract.submitTransaction('addFlag', '202065', 'requested')
+        console.log('Flag has been added');
 
 
 

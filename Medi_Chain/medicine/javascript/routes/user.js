@@ -74,7 +74,9 @@ router.post('/signup', async function (req, res, next) {
 
          console.log("You have been succesfully registered.");
          req.session.name = name;
-         req.session.id = NID;
+         //req.session.name = name;
+         req.session.UId = id;
+         
          res.redirect('/user/profile');
       }
       else {
@@ -120,7 +122,8 @@ router.post('/login', async function (req, res, next) {
 
          if (x.Email === req.body.email && x.Password === req.body.password) {
             req.session.name = x.Name;
-            req.session.id = x.NID;
+            req.session.UId = x.NID;
+            //req.session.email = x.Email;
             res.redirect('/user/profile');
          }
          else {
@@ -141,7 +144,7 @@ router.post('/login', async function (req, res, next) {
 
 
 
-module.exports = router;
+
 function checkSignIn(req, res, next) {
    if (req.session.name) {
       next();     //If session exists, proceed to page
@@ -152,3 +155,4 @@ function checkSignIn(req, res, next) {
       next(err);  //Error, trying to access unauthorized page!
    }
 }
+module.exports = router;

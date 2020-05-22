@@ -5,7 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var hbs = require('express-handlebars');
+var exphbs = require('express-handlebars');
 var session = require('express-session');
 var validator = require('express-validator');
 var csrf = require('csurf');
@@ -22,9 +22,52 @@ var usersRouter = require('./routes/user');
 var app = express();
 
 // view engine setup
-app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/'}));
+
+var hbs = exphbs.create({
+  extname: 'hbs' ,
+  defaultLayout: 'layout' ,
+  layoutsDir: __dirname + '/views/layouts/' ,
+  helpers: {
+
+    concate: function(a , b){
+      return a + b ;
+    },
+
+    print: function (a){
+      return a;
+    },
+    if_eq: function(a, b, opts) {
+      if (a == b) {
+          return opts.fn(this);
+      } else {
+          return opts.inverse(this);
+      }
+  },
+  get: function(kk){
+    return kk;
+  }
+
+  }
+});
+app.engine('hbs',hbs.engine);
+/*
+app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/',  helpers: {
+
+  concate: function(a,b){
+    return a+b ;
+  },
+
+  print: function (a){
+    return a;
+  }
+}
+}));*/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+
+
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -36,13 +79,36 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//var memoryStore=new session.MemoryStore();
+
 app.use(session({
-  secret: 'keyboard cat',
+ // secret: 'keyboard cat',
+  secret: 'mySecret',
+
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }
+  //store:memoryStore
 }))
 
+
+//hbs.registerHelper('concate', function(x , y, options) {
+  //return x+y ;
+//});
+
+
+app.use(function(req, res, next) {
+  res.locals.login = req.session.UId;
+  //res.locals.session = req.session;
+  console.log("asche :",res.locals.login);
+  //console.log("id peyechi: ",req.session);
+  next();
+});
+
+/*app.use(function(req, res, next) {  
+  app.locals.expreq = req;
+  next();
+})*/
 //enrollAdmin();
 //registerUser();
 

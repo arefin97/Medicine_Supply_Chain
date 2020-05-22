@@ -1,0 +1,24 @@
+
+{{#if message}}
+<div class="alert alert-danger">
+
+  <p>{{this.message}}</p>
+
+</div>
+{{/if}}
+
+  <div>
+  {{#each notifications  }}
+ 
+        <li>
+          <h3>Buy request from {{ this.BuyerId }} for product {{ this.ProductId }}</h3>
+          
+          
+          <a href="{{concate "/confirm_click/" this.ProductId}}" class="btn btn-success pull-left" role="button">Confirm</a>
+           <a href="{{concate "/reject_click/" this.ProductId}}" class="btn btn-default pull-rirgt" role="button">Delete</a>
+
+
+      
+   </li>
+  {{/each}}
+</div>

@@ -1,6 +1,15 @@
 {{#*inline "head-block"}}
 <!--<link rel="stylesheet" href="some-other-styles.css">-->
 {{/inline}}
+
+{{#if message}}
+<div class="alert alert-danger">
+
+  <p>{{this.message}}</p>
+
+</div>
+{{/if}}
+
 <!--<form action="/queryMedicineById" class="form-inline my-2 my-lg-0" method="POST">
    
       <input class="form-control mr-sm-2" type="search" placeholder="Search By ID" aria-label="Search">
@@ -8,36 +17,52 @@
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>-->
 <div>
-    <form action="/queryMedicineById"  class="form-inline my-2 my-lg-0" method="POST">
+  <form action="/queryMedicineById" class="form-inline my-2 my-lg-0" method="POST">
     <div class="form-group">
-                <label for="search"></label>
-                <input class="form-control mr-sm-2" type="search" id="search" name="search" class="form-control" placeholder="Search By ID" >
-            </div>
-            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
-        </form>
+      <label for="search"></label>
+      <input class="form-control mr-sm-2" type="search" id="search" name="search" class="form-control"
+        placeholder="Search By ID">
+    </div>
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+    <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+  </form>
 </div>
 <div>
-{{#each products  }}
-    <div class="row">
-        
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <img src="{{this.Img_path}}" alt="..." class="img-responsive">
-                    <div class="caption">
-                        <h3>{{ this.Name }}</h3>
-                        <p class="description">{{ this.PCompany }}</p>
-                        <div class="clearfix">
-                            <div class="price pull-left">${{ this.Currstage }}</div>
-                          <!-- <a href="/view_details/{{this._id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
-                        <a href="/view_details/{{this.Id}}" class="btn btn-success pull-right" role="button">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-      
+  <br>
+  {{#each products  }}
+  <div class="row">
+
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <!--<img src="{{this.Img_path}}" alt="..." class="">-->
+        <div class="caption">
+          <h3>{{ this.Name }}</h3>
+          <p class="description">{{ this.PCompany }}</p>
+          <div class="clearfix">
+            <div class="price pull-left">${{ this.Currstage }}</div>
+            <!-- <a href="/view_details/{{this._id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
+            <!--<a href="/view_details/{{this.Id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
+            <a href="{{concate "/view_details/" this.Id}}" class="btn btn-success pull-right" role="button">View
+              Details</a>
+            
+            {{#if this.Flg }}
+            
+    
+                 <a href="{{concate "/buy_click/" this.Id}}" class="btn btn-success pull-left" role="button">Buy</a>
+            
+                 {{else}}
+                 <a href="{{concate "/cancel_click/" this.Id}}" class="btn btn-default pull-left" role="button">Cancel Request</a>
+            
+            {{/if}}
+
+
+          </div>
+        </div>
+      </div>
     </div>
-{{/each}}
+
+  </div>
+  {{/each}}
 </div>
 <!--{{title}}
 {{#each products as |value key|}}
