@@ -1,0 +1,24 @@
+<br />
+<br />
+<center>
+  
+    <h3>{{title}}</h3>
+</center>
+{{#if message}}
+<div class="alert alert-info">
+
+    <p>{{this.message}}</p>
+
+</div>
+{{/if}}
+
+<div>
+    {{#each history  }}
+
+    <li>
+        <h4><i class="fa fa-database">
+                You {{ this.Ttype }} product of Id {{ this.PId }} to/from {{ this.DealWith}}</i></h4>
+    </li>
+    {{/each}}
+</div>
+<a href="/" class="btn btn-success pull-right" role="button">Back to Home</a>

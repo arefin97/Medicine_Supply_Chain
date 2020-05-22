@@ -1,9 +1,6 @@
-{{#*inline "head-block"}}
-<!--<link rel="stylesheet" href="some-other-styles.css">-->
-{{/inline}}
-<br/>
 
-<div class="jumbotron homeStyle bg-white" style="height: 500px;">
+<br/>
+<div class="" style="height: 500px;">
   {{#if message}}
   <div class="alert alert-danger">
 
@@ -26,29 +23,32 @@
             <p class="description">Production Company: {{ this.PCompany }}</p>
             <div class="clearfix">
               <div class="pull-left">Current Stage: {{ this.Currstage }}</div>
+              <br/><br/>
               <!-- <a href="/view_details/{{this._id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
               <!--<a href="/view_details/{{this.Id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
               <a href="{{concate "/view_details/" this.Id}}" class="btn btn-success pull-right" role="button">View
                 Details</a>
-
+                
               {{#if this.Flg }}
 
-
+              
               <a href="{{concate "/buy_click/" this.Id}}" class="btn btn-success pull-left" role="button">Buy</a>
 
               {{else}}
-              <a href="{{concate "/cancel_click/" this.Id}}" class="btn btn-secondary pull-right" role="button">Cancel
+              <a href="{{concate "/cancel_click/" this.Id}}" class="btn btn-secondary pull-left" role="button">Cancel
                 Request</a>
 
               {{/if}}
 
-
+            
             </div>
           </div>
         </div>
       </div>
 
     </div>
+    <br/>
+    <br/>
     {{/each}}
   </div>
 </div>

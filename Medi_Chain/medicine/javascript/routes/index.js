@@ -8,17 +8,17 @@ var queryMedicine = require('./functions/queryMedicineById');
 var queryAllMedicine = require('./functions/queryAllMedicine');
 var addNotifications = require('./functions/addNotifications');
 var getNotifications = require('./functions/getNotifications');
-var getNotificationsByPId=require('./functions/getNotificationsByPId');
+var getNotificationsByPId = require('./functions/getNotificationsByPId');
 var addSeller = require('./functions/addSeller');
 var getSeller = require('./functions/getSeller');
-var addPath =require('./functions/addPath');
-var getPath =require('./functions/getPath');
-var addHistory=require('./functions/addHistory');
-var getHistory=require('./functions/getHistory');
+var addPath = require('./functions/addPath');
+var getPath = require('./functions/getPath');
+var addHistory = require('./functions/addHistory');
+var getHistory = require('./functions/getHistory');
 var addFlag = require('./functions/addFlag');
 var getFlag = require('./functions/getFlag');
 var deleteData = require('./functions/deleteNoti');
-var changeMedicineOwner=require('./functions/changeMedicineOwner');
+var changeMedicineOwner = require('./functions/changeMedicineOwner');
 
 
 var bcrypt = require('bcrypt')
@@ -62,6 +62,8 @@ function makeid(length) {
 });
 */
 router.get('/', function (req, res, next) {
+  var datetime = new Date();
+  console.log("time :", datetime);
   res.render('home/welcome', { csrfToken: req.csrfToken() });
 });
 
@@ -73,26 +75,39 @@ router.get('/registerUser', function (req, res, next) {
   registerUser();
   res.send('User created');
 });
+/////
+router.get('/addSeller', function (req, res, next) {
+  res.render('medicine/addSeller', { csrfToken: req.csrfToken() });
+});
 
+router.post('/addSeller', async function (req, res, next) {
+  var id = req.body.id;
+  var name = req.body.name;
+  var email = req.body.email;
+  var type = req.body.type;
+  var key = makeid(20);
+  await addSeller(key, id, name, email, type);
+  res.redirect('/');
+});
 //////
 router.get('/notification', async function (req, res, next) {
   var nn = await getNotifications(req.session.UId);
-  console.log("*** :",nn);
-  if(nn==="[]"){
-    res.render('user/notification', { title: "Notification", message:"No notification" });
+  console.log("*** :", nn);
+  if (nn === "[]") {
+    res.render('user/notification', { title: "Notification", message: "No notification", csrfToken: req.csrfToken() });
   }
-  else{
-  var ob = JSON.parse(nn);
+  else {
+    var ob = JSON.parse(nn);
 
-  var test = [];
-  for (var i = 0; i < ob.length; i += 1) {
+    var test = [];
+    for (var i = 0; i < ob.length; i += 1) {
 
-    var Array = ob[i].Record;
-    test.push(Array);
+      var Array = ob[i].Record;
+      test.push(Array);
+    }
+    console.log("Notir test", test);
+    res.render('user/notification', { title: "Notification", notifications: test, csrfToken: req.csrfToken() });
   }
-  console.log("Notir test", test);
-  res.render('user/notification', { title:"Notification", notifications: test });
-}
 });
 ////////
 router.get('/viewAllMedicine', async function (req, res, next) {
@@ -113,18 +128,46 @@ for(var x in products){
   for (var i = 0; i < ob.length; i += 1) {
 
     var Array = ob[i].Record;
+    var id = Array.Id;
+    //test.push(Array);
 
-    test.push(Array);
-    //console.log(test);
-    //console.log(Array);
-    var Property = "Id";
-    var product = [];
-    //product.push(new Product(Array.Name,Array.PCompany,Array.Currstage));
-    //var productById = groupBy(Array, Property); 
-    //console.log(productById);
-    //docs.push(productById);
-    //docs.push(Array);
+    var f_result = await getFlag(id);
+    var ff_result;
+    var fff_result;
+    var fff_id;
+    console.log("....", f_result);
+    if (f_result != "[]") {
+      ff_result = JSON.parse(f_result);
+      fff_result = ff_result[0].Record.Flg;
+      fff_id = ff_result[0].Record.BuyerId;
+      console.log("fff_id :", fff_id);
+      console.log(req.session.UId);
+    }
+    if (result === "[]") {
+      res.render('medicine/view_medicine', { message: "No result Found!", csrfToken: req.csrfToken() });
+    }
+    else {
+      // var obj = JSON.parse(result);
+      //console.log("obj :", obj);
+      //var test = [];
+      //var Array = obj[0].Record;
+      //test.push(Array);
+      var f = true;
+      if (f_result === "[]") f = true;
+      if ((fff_id === req.session.UId && f_result != "[]")) f = false;
+      if (!req.session.name) f = true;
+      test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f));
+    }
   }
+  //console.log(test);
+  //console.log(Array);
+  //var Property = "Id";
+  //var product = [];
+  //product.push(new Product(Array.Name,Array.PCompany,Array.Currstage));
+  //var productById = groupBy(Array, Property); 
+  //console.log(productById);
+  //docs.push(productById);
+  //docs.push(Array);
   //console.log(product);
 
 
@@ -136,7 +179,7 @@ for(var x in products){
     }*/
   //console.log(productChunks);
   // console.log(docs);
-  res.render('home/welcome', { title: Array.Type, products: test });res.render('home/welcome', { title: Array.Type, products: test });
+  res.render('medicine/view_medicine', { title: "Medicine", products: test, csrfToken: req.csrfToken() });
   // });
 });
 
@@ -164,20 +207,9 @@ router.post('/insertMedicine', async function (req, res, next) {
   res.redirect('/');
 });
 
-/*router.get('/viewAllMedicine', async function (req, res,next) {
-  const result = await contract.evaluateTransaction('queryAllMedicine');
 
-  var resultData = result.toString();
-  var medicine = JSON.parse(resultData);
-
-  var html = `<html><body>${resultData}</body></html>`;
-
-  
-  res.send(html);   
-});
-*/
 router.get('/queryMedicineById', async function (req, res, next) {
-  res.render('home/welcome', { csrfToken: req.csrfToken() });
+  res.render(res.redirect(req.get('referrer')), { csrfToken: req.csrfToken() });
 });
 
 router.post('/queryMedicineById', async function (req, res, next) {
@@ -202,7 +234,7 @@ router.post('/queryMedicineById', async function (req, res, next) {
     console.log(req.session.UId);
   }
   if ((result === "[]") || (fff_id != req.session.UId && f_result != "[]")) {
-    res.render('home/welcome', { message: "No result Found!", csrfToken: req.csrfToken() });
+    res.render('medicine/view_medicine', { message: "No result Found!", csrfToken: req.csrfToken() });
   }
   else {
     var obj = JSON.parse(result);
@@ -224,7 +256,7 @@ router.post('/queryMedicineById', async function (req, res, next) {
 
     console.log(test);
     // res.redirect('/home/welcome',{name:x.Name,ID:x.Id,pCompany:x.Pcompany,pDate:x.Pdate,expDate:x.Expdate,cStage:x.Currstage});
-    res.render('home/welcome', { title: 'Medicine', products: test, csrfToken: req.csrfToken() });
+    res.render('medicine/view_medicine', { title: 'Medicine', products: test, csrfToken: req.csrfToken() });
     // res.redirect('/home/welcome',{title: 'Medicine', products: productChunks, successMsg: "succes!", noMessages: !successMsg});
     //res.send(result.toString());
 
@@ -255,7 +287,7 @@ router.get('/buy_click/:id', async function (req, res, next) {
 
   console.log("buy_click er id paitesi: ", prodId);
   if (!req.session.name) {
-    res.render('home/welcome', { message: "Please,Log In First!", csrfToken: req.csrfToken() });
+    res.render('medicine/view_medicine', { message: "Please,Log In First!", csrfToken: req.csrfToken() });
   }
 
   //await addFlag(prodId,"requested");
@@ -280,39 +312,9 @@ router.get('/buy_click/:id', async function (req, res, next) {
     test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f));
     //test.push(Array1);
     console.log("TEST :", test);
-    //console.log(Array);
-    //product.push(new Product(Array.Name,Array.PCompany,Array.Currstage));
-    //var productById = groupBy(Array, Property); 
-    //console.log(productById);
-    //docs.push(productById);
-    //docs.push(Array);
-    //}
 
 
-
-
-    //test.push(Array);
-    //console.log(test);
-    //console.log(Array);
-    //product.push(new Product(Array.Name,Array.PCompany,Array.Currstage));
-    //var productById = groupBy(Array, Property); 
-    //console.log(productById);title: 'Medicine', products: test,csrfToken:req.csrfToken()
-    //docs.push(productById);
-    //docs.push(Array);
-    // }
-    //test1.push(Array1);
-    //}
-    //console.log("test: ",Array1);
-
-    /*var f2 =await getFlag(prodId);
-    var f1=JSON.parse(f2);
-    var f0=f1[0].Record;
-    var f=f0.Flg;
-    console.log("Flag :",f);
-    var ff=false;
-    if(f==="requested")ff=true;
-    */
-    res.render('home/welcome', { title: 'Medicine', products: test, csrfToken: req.csrfToken() });
+    res.render('medicine/view_medicine', { title: 'Medicine', products: test, csrfToken: req.csrfToken() });
   }
 });
 
@@ -323,7 +325,7 @@ router.get('/cancel_click/:id', async function (req, res, next) {
 
   console.log("cancel_click er id paitesi: ", prodId);
   if (!req.session.name) {
-    res.render('home/welcome', { message: "Please,Log In First!", csrfToken: req.csrfToken() });
+    res.render('medicine/view_medicine', { message: "Please,Log In First!", csrfToken: req.csrfToken() });
   }
   //await addFlag(prodId,"requested");
   var rr = await getFlag(prodId);
@@ -356,7 +358,7 @@ router.get('/cancel_click/:id', async function (req, res, next) {
   //test.push(Array1);
   console.log("TEST :", test);
 
-  res.render('home/welcome', { title: 'Medicine', products: test, csrfToken: req.csrfToken() });
+  res.render('medicine/view_medicine', { title: 'Medicine', products: test, csrfToken: req.csrfToken() });
 });
 //////
 router.get('/confirm_click/:id', async function (req, res, next) {
@@ -366,34 +368,34 @@ router.get('/confirm_click/:id', async function (req, res, next) {
   if (!req.session.name) {
     res.render('home/welcome', { message: "Please,Log In First!", csrfToken: req.csrfToken() });
   }
-  
-  
+
+
   //await addFlag(prodId,"requested");
   var rr = await getNotificationsByPId(prodId);
   var rrr = JSON.parse(rr);
-  var rrr1=rrr[0].Record;
+  var rrr1 = rrr[0].Record;
   var key = rrr[0].Key;
-///change owner
-var result3 = await queryMedicine(prodId);
-var ob3 = JSON.parse(result3);
-var key1 =ob3[0].Key;
-await changeMedicineOwner(key1,rrr1.BuyerName,rrr1.BuyerId);
-//add path
-await addPath(key1,rrr1.BuyerName);
-//add History
-var kkey=makeid(20);
-await addHistory(kkey,rrr1.SellerId,rrr1.ProductId,"Sold",rrr1.BuyerId);
-var kkkey=makeid(20)
-await addHistory(kkkey,rrr1.BuyerId,rrr1.ProductId,"Bought",rrr1.SellerId);
-//notification delete
+  ///change owner
+  var result3 = await queryMedicine(prodId);
+  var ob3 = JSON.parse(result3);
+  var key1 = ob3[0].Key;
+  await changeMedicineOwner(key1, rrr1.BuyerName, rrr1.BuyerId);
+  //add path
+  await addPath(key1, rrr1.BuyerName);
+  //add History
+  var kkey = makeid(20);
+  await addHistory(kkey, rrr1.SellerId, rrr1.ProductId, "Sold", rrr1.BuyerId);
+  var kkkey = makeid(20)
+  await addHistory(kkkey, rrr1.BuyerId, rrr1.ProductId, "Bought", rrr1.SellerId);
+  //notification delete
   await deleteData(key);
-//delete flag
-var nn = await getFlag(prodId);
-var nnn = JSON.parse(nn);
-var key5 = nnn[0].Key;
-console.log("nnn ", nnn);
-console.log("key :", key5);
-await deleteData(key5);
+  //delete flag
+  var nn = await getFlag(prodId);
+  var nnn = JSON.parse(nn);
+  var key5 = nnn[0].Key;
+  console.log("nnn ", nnn);
+  console.log("key :", key5);
+  await deleteData(key5);
 
   res.redirect('/notification');
 });
@@ -423,6 +425,24 @@ router.get('/reject_click/:id', async function (req, res, next) {
   res.redirect('/notification');
 });
 //////
+//view transaction
+router.get('/view_transaction/:id', async function (req, res, next) {
+  var prodId = req.params.id;
 
+  console.log("view transaction er id paitesi: ", prodId);
+  var result = await getHistory(prodId);
+  if (result === "[]") {
+    res.render('medicine/view_history', { message: "You didn't make any Transaction.", csrfToken: req.csrfToken() });
+  }
+  else {
+    var ob = JSON.parse(result);
+    var test = [];
+    for (var i = 0; i < ob.length; i += 1) {
+      var arr = ob[i].Record;
+      test.push(arr);
+    }
+    res.render('medicine/view_history', { title: "Your Transactions", history: test, csrfToken: req.csrfToken() });
+  }
+});
 
 module.exports = router;

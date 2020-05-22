@@ -99,7 +99,9 @@ app.use(session({
 
 app.use(function(req, res, next) {
   res.locals.login = req.session.UId;
-  //res.locals.session = req.session;
+  res.locals.name = req.session.name;
+  res.locals.userType = req.session.uType;
+  res.locals.Img_Path = req.session.Img_Path;
   console.log("asche :",res.locals.login);
   //console.log("id peyechi: ",req.session);
   next();

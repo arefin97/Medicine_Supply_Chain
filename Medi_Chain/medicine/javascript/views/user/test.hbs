@@ -1,0 +1,95 @@
+<div class="fixed-top">
+  {{#if name}}
+  <!-- Sidebar Header-->
+  <div class="col-2 float-right">
+    <div class="avatar"><img
+        src="//home//zummon//fabric//fabric-samples//fabcar//javascript//public//pills_red_blue.jpg" alt="..."
+        class="img-fluid rounded-circle"></div>
+    <div class="title">
+      <h1 class="h4">Welcome, {{ name }}</h1>
+    </div>
+  </div>
+
+  {{/if}}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"><i class="fa fa-glass"></i>Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        {{#if login}}
+        <li>
+          <a class="navbar-brand" href="/notification"><i class="fa fa-bell"></i></a>
+        </li>
+        {{/if}}
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary">Account</button>
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            {{#if login}}
+            <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+            <li role="separator" class="divider"></li>
+            <a class="dropdown-item" href="/user/logout">Logout</a>
+
+            {{ else }}
+            <li><a class="dropdown-item" href="/user/signup">Sign up</a></li>
+            <li><a class="dropdown-item" href="/user/login">Sign in</a></li>
+            {{/if}}
+          </ul>
+        </div>
+        <!--for admin-->
+        {{#if_eq login "2016331070"}}
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary">Admin Actions</button>
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+
+            <li><a class="dropdown-item" href="/addSeller">Add Seller</a></li>
+            <li role="separator" class="divider"></li>
+            <a class="dropdown-item" href="/enrollAdmin">Enroll Admin</a>
+            <li><a class="dropdown-item" href="/registerUser">Register User</a></li>
+
+
+          </ul>
+        </div>
+        {{/if_eq}}
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">' '</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled pull-right" href="#" tabindex="-1" aria-disabled="true">Disable3</a>
+        </li>
+        <!--<li class="nav-item">
+          <div class="col-2 float-right">Contact</div>
+        </li>-->
+      </ul>
+      <!--<form action="/queryMedicineById" class="form-inline my-2 my-lg-0" method="POST">
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" id="search" placeholder="Search By Id" aria-label="Search">
+      <input type="hidden" name="_csrf" value="{{ ../csrfToken }}">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"></button>
+    </form>-->
+    </div>
+  </nav>
+</div>

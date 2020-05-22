@@ -1,6 +1,10 @@
-<div class="container">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><i class="fa fa-glass"></i>Navbar</a>
+<div class="fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-light " style="background-color:midnightblue;">
+    <a class="navbar-brand" style="color:white" href="#">
+      <img src="/kissclipart-pill-clipart-pharmaceutical-drug-tablet-stock-phot-31a89fe199d044bb.png" width="30"
+        height="30" alt="">
+      Navbar
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,61 +13,85 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" style="color:white" href="/">
+            Home
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" style="color:white" href="#">Link</a>
         </li>
         {{#if login}}
         <li>
-        <a class="navbar-brand" href="/notification"><i class="fa fa-bell"></i></a>
+          <a class="navbar-brand" style="color:white" href="/notification"><i class="fa fa-bell"
+              style="color:white"></i></a>
         </li>
-       {{/if}}
+        {{/if}}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="color:white" href="#" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Account
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-<div class="btn-group">
-  <button type="button" class="btn btn-primary">Account</button>
-  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <ul class="dropdown-menu">
-           {{#if login}}
-                   <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
-                   <li role="separator" class="divider"></li>
-                   <a class="dropdown-item" href="/user/logout">Logout</a>
-          
-            {{ else }}
-                 <li><a class="dropdown-item" href="/user/signup">Sign up</a></li>
-                  <li><a class="dropdown-item" href="/user/login">Sign in</a></li>
-          {{/if}}
-  </ul>
-</div>
+            {{#if login}}
+            <a class="dropdown-item" href="/user/profile">Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/user/logout">Logout</a>
 
-       <!-- <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> User Management <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-           {{#if login}}
-                   <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
-                   <li role="separator" class="divider"></li>
-                   <a class="dropdown-item" href="/user/logout">Logout</a>
-          
             {{ else }}
-                 <li><a href="/user/signup">Sign up</a></li>
-                  <li><a href="/user/login">Sign in</a></li>
-          {{/if}}
-        <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="/user/signup">Sign up</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/user/login">Sign in</a>
+            {{/if}}
+          </div>
+        </li>
+        <!--for admin-->
+        {{#if_eq login "2016331070"}}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="color:white" href="#" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Admin Action
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item " href="/addSeller">Add Seller</a>
+            <a class="dropdown-item" href="/enrollAdmin">Enroll Admin</a>
+            <a class="dropdown-item" href="/registerUser">Register User</a>
+          </div>
+        </li>
+         <li class="nav-item active">
+          <a class="nav-link" style="color:white" href="/viewAllMedicine"><i class="fa fa-eye"
+              style="color:white">View All</i></a>
+        </li>
+        
+        {{/if_eq}}
+         <!--for producer-->
+        {{#if_eq userType "producer"}}
+        <li>
+          <a class="navbar-brand" style="color:white" href="/insertMedicine"><i class="fa fa-medkit"
+              style="color:white">Insert</i></a>
+        </li>
+        {{/if_eq}}
+      </ul>
+      <form action="/queryMedicineById" class="form-inline my-2 my-lg-0" method="POST">
+        <div class="form-group">
+          <label for="search"></label>
+          <input class="form-control mr-sm-2" type="search" id="search" name="search" class="form-control"
+            placeholder="Search By ID">
+        </div>
+       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+      </form>
+      {{#if name}}
+      <!-- Sidebar Header-->
+      <!-- Sidebar Header-->
+      <div class="col-2 float-right">
+        <a class="nav-link" style="color:white" href="#">
+          <img src="{{concate "/"  Img_Path }}" width="30" height="30" alt="..."
+            class="img-fluid rounded-circle">
+          Welcome, {{ name }}
+        </a>
+      </div>
+      {{/if}}
     </div>
-    </li>-->
-    <li class="nav-item">
-      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-    </li>
-    </ul>
-    <!--<form action="/queryMedicineById" class="form-inline my-2 my-lg-0" method="POST">
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" id="search" placeholder="Search By Id" aria-label="Search">
-      <input type="hidden" name="_csrf" value="{{ ../csrfToken }}">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"></button>
-    </form>-->
-</div>
-</nav>
+  </nav>
 </div>

@@ -1,24 +1,51 @@
-
+<br/>
+<br/>
+<center>
+  <h3>{{ title }}</h3>
+</center>
 {{#if message}}
-<div class="alert alert-danger">
+<div class="alert alert-info">
 
   <p>{{this.message}}</p>
 
 </div>
 {{/if}}
 
-  <div>
+<div>
   {{#each notifications  }}
- 
-        <li>
-          <h3>Buy request from {{ this.BuyerId }} for product {{ this.ProductId }}</h3>
-          
-          
-          <a href="{{concate "/confirm_click/" this.ProductId}}" class="btn btn-success pull-left" role="button">Confirm</a>
-           <a href="{{concate "/reject_click/" this.ProductId}}" class="btn btn-default pull-rirgt" role="button">Delete</a>
+  <li>
+    <h4><i class="fa fa-forumbee">
+        Buy request from {{ this.BuyerId }} for product {{ this.ProductId }}</i></h4>
 
+    <a href="{{concate "/confirm_click/" this.ProductId}}" class="btn btn-success pull-left" role="button">Confirm</a>
+    <a href="{{concate "/reject_click/" this.ProductId}}" class="btn btn-secondary pull-rirgt" role="button">Delete</a>
 
-      
-   </li>
+  </li>
   {{/each}}
 </div>
+<a href="/" class="btn btn-success pull-right" role="button">Back to Home</a>
+<!-- Notifications-->
+<!--  <li class="nav-item dropdown"> <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-bell-o"></i><span class="badge bg-red badge-corner">12</span></a>
+                  <ul aria-labelledby="notifications" class="dropdown-menu">
+                    {{#each notifications  }}
+                    <li><a rel="nofollow" href="#" class="dropdown-item"> 
+                        <div class="notification">
+                          <div class="notification-content"><i class="fa fa-envelope bg-green"></i>Buy request from {{ this.BuyerId }} for product {{ this.ProductId }} </div>
+                           <a href="{{concate "/confirm_click/" this.ProductId}}" class="btn btn-success pull-left" role="button">Confirm</a>
+                           <a href="{{concate "/reject_click/" this.ProductId}}" class="btn btn-default pull-rirgt" role="button">Delete</a>
+                        </div></a></li>
+                        {{/each}}
+                    <li><a rel="nofollow" href="#" class="dropdown-item"> 
+                        <div class="notification">
+                          <div class="notification-content"><i class="fa fa-twitter bg-blue"></i>You have 2 followers</div>
+                          <div class="notification-time"><small>4 minutes ago</small></div>
+                        </div></a></li>
+                    <li><a rel="nofollow" href="#" class="dropdown-item"> 
+                        <div class="notification">
+                          <div class="notification-content"><i class="fa fa-upload bg-orange"></i>Server Rebooted</div>
+                          <div class="notification-time"><small>4 minutes ago</small></div>
+                        </div></a></li>
+ 
+                    <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong>view all notifications                                            </strong></a></li>
+                  </ul>
+                </li>-->

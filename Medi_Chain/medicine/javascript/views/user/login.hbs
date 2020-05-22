@@ -1,14 +1,18 @@
 
-<div class="row">
-    <div class="col-md-4 col-md-offset-4">
-        <h1>Sign In</h1>
-           {{#if hasErrors}}
+
+         <body class="container">
+        <div class="col-md-4 offset-md-4 centered">
+            <br />
+            <h1 style="text-align: center;color:rgb(41, 37, 235)">Sign In</h1>
+            <br />
+            {{#if message }}
             <div class="alert alert-danger">
-                {{# each messages }}
-                    <p>{{this}}</p>
-                {{/each}}
+
+                    <p>{{message}}</p>
+               
             </div>
-        {{/if}}
+             {{/if}}
+
         <form action="/user/login" method="post">
          <div class="form-group">
             <label for="email">Email</label>
@@ -24,5 +28,4 @@
         </form>
          <p>Don't have an account? <a href="/user/signup">Sign up!</a></p>
     </div>
-</div>
-
+</body>
