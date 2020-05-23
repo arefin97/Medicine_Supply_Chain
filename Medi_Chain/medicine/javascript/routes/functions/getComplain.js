@@ -7,12 +7,9 @@
 const { FileSystemWallet, Gateway } = require('fabric-network');
 const path = require('path');
 
-
 //const ccpPath = path.resolve(__dirname, '..', '..', 'first-network', 'connection-org1.json');
 const ccpPath = path.resolve("/home/zummon/fabric/fabric-samples/first-network/connection-org1.json");
-
-
-async function main(key,id,pId,tType,dealingWith,dateTime,to_from) {
+async function main(email) {
     try {
 
         // Create a new file system based wallet for managing identities.
@@ -38,29 +35,25 @@ async function main(key,id,pId,tType,dealingWith,dateTime,to_from) {
         // Get the contract from the network.
         const contract = network.getContract('fabcar');
 
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        //await contract.submitTransaction('createMovie', 'movie0', 'eternal sunshine of the spotless mind', 'Michel Gondry', '2004', 'romance, sci-fi, drama')
-        //await contract.submitTransaction('createMovie', 'movie1', 'Seven', 'David Fincher', '1995', 'drama, mystery')
+        // Evaluate the specified transaction.
+        // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
+        // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
+        //The following line should give you all the movies released in 1995
 
-       // await contract.submitTransaction('createMedicine', 'm1','3', 'Napa', 'ACI', '12-12-18', '31-12-19','ACII')
-        //await contract.submitTransaction('createMedicine', 'm2','5', 'Exel', 'Beximco', '1-11-18', '3-10-19','Bexx')
-        //await contract.submitTransaction('createUser', 'mm', '0001', 'zaman', 'gmail', '###', '01623', 'customer')
-  
-        await contract.submitTransaction('addHistory',key,id,pId,tType,dealingWith,dateTime,to_from);
-        console.log('History has been posted');
+        //const result = await contract.evaluateTransaction('queryMoviesByYear', '1995');
+        //const result = await contract.evaluateTransaction('queryMedicineById', '101');
+        //const result = await contract.evaluateTransaction('queryAllRecords2');
+        //const result = await contract.evaluateTransaction('queryUser', email);
+        const result = await contract.evaluateTransaction('getComplain', email);
 
-
-
-        // Disconnect from the gateway.
-        await gateway.disconnect();
+      
+       // console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+       return result.toString();
 
     } catch (error) {
-        console.error(`Failed to submit transaction: ${error}`);
+        console.error(`Failed to evaluate transaction: ${error}`);
         process.exit(1);
     }
 }
 
-//main();
 module.exports = main;

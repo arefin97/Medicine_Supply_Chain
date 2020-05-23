@@ -16,6 +16,7 @@
   <li>
     <h4><i class="fa fa-forumbee">
         Buy request from {{ this.BuyerId }} for product {{ this.ProductId }}</i></h4>
+        <h6>{{ this.Time }}</h6>
 
     <a href="{{concate "/confirm_click/" this.ProductId}}" class="btn btn-success pull-left" role="button">Confirm</a>
     <a href="{{concate "/reject_click/" this.ProductId}}" class="btn btn-secondary pull-rirgt" role="button">Delete</a>

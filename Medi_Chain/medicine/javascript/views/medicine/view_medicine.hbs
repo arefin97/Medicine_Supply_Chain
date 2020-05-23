@@ -1,20 +1,14 @@
-
-<br/>
+<br />
 <div class="" style="height: 500px;">
   {{#if message}}
   <div class="alert alert-danger">
-
     <p>{{this.message}}</p>
-
   </div>
   {{/if}}
-
-
   <div>
     <br>
     {{#each products  }}
     <div class="row">
-
       <div class="col-sm-6 col-md-4">
         <div class="thumbnail">
           <img src="{{concate "/" this.Img_path }}" alt="..." class="">
@@ -23,15 +17,16 @@
             <p class="description">Production Company: {{ this.PCompany }}</p>
             <div class="clearfix">
               <div class="pull-left">Current Stage: {{ this.Currstage }}</div>
-              <br/><br/>
+              <br /><br />
               <!-- <a href="/view_details/{{this._id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
               <!--<a href="/view_details/{{this.Id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
               <a href="{{concate "/view_details/" this.Id}}" class="btn btn-success pull-right" role="button">View
                 Details</a>
-                
+              {{#if del}}
+              <a href="{{concate "/delete_medicine/" this.Id}}" class="btn btn-secondary pull-left" role="button">Delete
+                Medicine</a>
+              {{else}}
               {{#if this.Flg }}
-
-              
               <a href="{{concate "/buy_click/" this.Id}}" class="btn btn-success pull-left" role="button">Buy</a>
 
               {{else}}
@@ -39,16 +34,16 @@
                 Request</a>
 
               {{/if}}
+              {{/if}}
 
-            
             </div>
           </div>
         </div>
       </div>
 
     </div>
-    <br/>
-    <br/>
+    <br />
+    <br />
     {{/each}}
   </div>
 </div>

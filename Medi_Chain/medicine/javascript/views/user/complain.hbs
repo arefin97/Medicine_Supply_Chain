@@ -1,7 +1,7 @@
 <br />
 <br />
 <center>
-  
+
     <h3>{{title}}</h3>
 </center>
 {{#if message}}
@@ -13,13 +13,18 @@
 {{/if}}
 
 <div>
-    {{#each history  }}
+    {{#each complain  }}
 
     <li>
         <h4><i class="fa fa-database">
-                You {{ this.Ttype }} product of Id {{ this.PId }} {{this.To_From}} {{ this.DealWith}}</i></h4>
+
+                complain from {{ this.CName }}({{this.CId}}): </i></h4><br />
+        <p class="description">{{ this.Complain }}</p>
+        <h6>{{this.Time}}</h6>
+
     </li>
-    <h6>{{this.DateTime}}</h6>
     {{/each}}
+    <br />
+    <br />
 </div>
 <a href="/" class="btn btn-success pull-right" role="button">Back to Home</a>

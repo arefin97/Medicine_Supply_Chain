@@ -31,17 +31,18 @@ router.use(csrfProtection);
 
 var app = require("../app");
 
-function Product(id, name, company, ownerid, pdate, expdate, cStage, path, img_path, flag) {
+function Product(id, name, company, ownerid, pdate, expdate, cStage, path, img_path, flag,del) {
   this.Id = id;
   this.Name = name;
   this.PCompany = company;
   this.OwnerId = ownerid;
   this.Pdate = pdate;
   this.Expdate = expdate,
-    this.Currstage = cStage;
+  this.Currstage = cStage;
   this.Path = path;
   this.Img_path = img_path;
   this.Flg = flag;
+  this.del=del;
   return this;
 };
 
@@ -152,11 +153,16 @@ for(var x in products){
       //var test = [];
       //var Array = obj[0].Record;
       //test.push(Array);
+      var del=false;
+      if(req.session.UId==="2016331070"||(req.session.uType==="producer"&&req.session.UId===Array.OwnerId)){
+        del=true;
+      }
+      
       var f = true;
       if (f_result === "[]") f = true;
       if ((fff_id === req.session.UId && f_result != "[]")) f = false;
       if (!req.session.name) f = true;
-      test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f));
+      test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f,del));
     }
   }
   //console.log(test);
@@ -179,7 +185,7 @@ for(var x in products){
     }*/
   //console.log(productChunks);
   // console.log(docs);
-  res.render('medicine/view_medicine', { title: "Medicine", products: test, csrfToken: req.csrfToken() });
+  res.render('medicine/view_medicine', { title: "Medicine", products: test,del:del, csrfToken: req.csrfToken() });
   // });
 });
 
@@ -241,12 +247,16 @@ router.post('/queryMedicineById', async function (req, res, next) {
     console.log("obj :", obj);
     var test = [];
     var Array = obj[0].Record;
+    var del=false;
+    if(req.session.UId==="2016331070"||(req.session.uType==="producer"&&req.session.UId===Array.OwnerId)){
+      del=true;
+    }
     //test.push(Array);
     var f = true;
     if (f_result === "[]") f = true;
     if ((fff_id === req.session.UId && f_result != "[]")) f = false;
     if (!req.session.name) f = true;
-    test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f));
+    test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f,del));
     //var Property = "Id";
     //var productById = _.groupBy(Array, Property);
     //docs.push(productById);
@@ -256,7 +266,7 @@ router.post('/queryMedicineById', async function (req, res, next) {
 
     console.log(test);
     // res.redirect('/home/welcome',{name:x.Name,ID:x.Id,pCompany:x.Pcompany,pDate:x.Pdate,expDate:x.Expdate,cStage:x.Currstage});
-    res.render('medicine/view_medicine', { title: 'Medicine', products: test, csrfToken: req.csrfToken() });
+    res.render('medicine/view_medicine', { title: 'Medicine', products: test,del:del, csrfToken: req.csrfToken() });
     // res.redirect('/home/welcome',{title: 'Medicine', products: productChunks, successMsg: "succes!", noMessages: !successMsg});
     //res.send(result.toString());
 
@@ -303,7 +313,9 @@ router.get('/buy_click/:id', async function (req, res, next) {
     var buyerId = req.session.UId;
     //console.log("buyerID :",buyerId);
     var buyerName = req.session.name;
-    await addNotifications(key1, Array.OwnerId, Array.Currstage, buyerId, buyerName, prodId);
+    var datetime = new Date();
+    //console.log("time :", datetime);
+    await addNotifications(key1, Array.OwnerId, Array.Currstage, buyerId, buyerName, prodId,datetime);
     var test = [];
     //for (var i = 0; i < ob3.length; i +=1) {
 
@@ -384,9 +396,11 @@ router.get('/confirm_click/:id', async function (req, res, next) {
   await addPath(key1, rrr1.BuyerName);
   //add History
   var kkey = makeid(20);
-  await addHistory(kkey, rrr1.SellerId, rrr1.ProductId, "Sold", rrr1.BuyerId);
+  var datetime = new Date();
+
+  await addHistory(kkey, rrr1.SellerId, rrr1.ProductId, "Sold", rrr1.BuyerId,datetime,"to");
   var kkkey = makeid(20)
-  await addHistory(kkkey, rrr1.BuyerId, rrr1.ProductId, "Bought", rrr1.SellerId);
+  await addHistory(kkkey, rrr1.BuyerId, rrr1.ProductId, "Bought", rrr1.SellerId,datetime,"from");
   //notification delete
   await deleteData(key);
   //delete flag
@@ -444,5 +458,55 @@ router.get('/view_transaction/:id', async function (req, res, next) {
     res.render('medicine/view_history', { title: "Your Transactions", history: test, csrfToken: req.csrfToken() });
   }
 });
+//delete Medicine
+router.get('/delete_medicine/:id', async function (req, res, next) {
+  var prodId = req.params.id;
 
+  console.log("delete medicine er id paitesi: ", prodId);
+  var result = await queryMedicine(prodId);
+  var ob = JSON.parse(result);
+  var rr = ob[0].Record;
+  var key = rr[0].Key;
+  await deleteData(key);
+ 
+    res.redirect('/viewAllMedicine', { csrfToken: req.csrfToken() });
+});
+/////
+router.get('/leave_complain', async function (req, res, next) {
+  res.render(res.redirect(req.get('referrer')), { csrfToken: req.csrfToken() });
+});
+
+router.post('/leave_complain', async function (req, res, next) {
+  var complain_to=req.body.complain_to;
+  var complain=req.body.complain;
+  var datetime = new Date();
+  console.log("time :", datetime);
+  if(complain_to==="admin" ){
+    complain_to="admin97@gmail.com";
+  }
+  var complainee_name = req.session.name;
+  var complainee_id = req.session.UId;
+var key=makeid(20);
+  await addComplain(key,complain_to,complainee_id,complainee_name,complain,time);
+  res.render(res.redirect(req.get('referrer')), { message:"Your complain has been posted",csrfToken: req.csrfToken() });
+});
+/////
+//check_complain
+router.get('/check_complain', async function (req, res, next) {
+  var email=req.session.Email;
+  console.log("check complain er id paitesi: ", email);
+  var result=await getComplain(email);
+  if (result === "[]") {
+    res.render('user/complain', { message: "No complain to you.", csrfToken: req.csrfToken() });
+  }
+  else {
+    var ob = JSON.parse(result);
+    var test = [];
+    for (var i = 0; i < ob.length; i += 1) {
+      var arr = ob[i].Record;
+      test.push(arr);
+    }
+    res.render('user/complain', { title: "Complains", complain: test, csrfToken: req.csrfToken() });
+  }
+});
 module.exports = router;

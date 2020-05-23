@@ -12,7 +12,7 @@ const path = require('path');
 const ccpPath = path.resolve("/home/zummon/fabric/fabric-samples/first-network/connection-org1.json");
 
 
-async function main(key,id,pId,tType,dealingWith,dateTime,to_from) {
+async function main(key,complain_to,complainee_id,complainee_name,complain,time) {
     try {
 
         // Create a new file system based wallet for managing identities.
@@ -48,8 +48,8 @@ async function main(key,id,pId,tType,dealingWith,dateTime,to_from) {
         //await contract.submitTransaction('createMedicine', 'm2','5', 'Exel', 'Beximco', '1-11-18', '3-10-19','Bexx')
         //await contract.submitTransaction('createUser', 'mm', '0001', 'zaman', 'gmail', '###', '01623', 'customer')
   
-        await contract.submitTransaction('addHistory',key,id,pId,tType,dealingWith,dateTime,to_from);
-        console.log('History has been posted');
+        await contract.submitTransaction('addComplain',key,complain_to,complainee_id,complainee_name,complain,time);
+        console.log('Complain has been posted');
 
 
 

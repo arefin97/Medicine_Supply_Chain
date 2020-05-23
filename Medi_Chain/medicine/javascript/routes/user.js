@@ -96,6 +96,7 @@ router.post('/signup', async function (req, res, next) {
             req.session.UId = id;
             req.session.uType = userType;
             req.session.Img_Path=img;
+            req.session.Email=email;
 
             res.redirect('/user/profile');
            }
@@ -139,7 +140,7 @@ router.post('/login', async function (req, res, next) {
          req.session.name = "admin";
          req.session.UId = "2016331070";
          req.session.uType = "admin";
-         req.session.Img_Path="bigstock-Doctor-With-Health-Insurance-H-304669417_1024X684.png"
+         req.session.Img_Path="bigstock-Doctor-With-Health-Insurance-H-304669417_1024X684.png";
          res.redirect('/user/profile');
       }
       else {
