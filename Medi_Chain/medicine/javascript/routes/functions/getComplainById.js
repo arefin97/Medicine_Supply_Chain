@@ -34,6 +34,7 @@ async function main(id) {
 
         // Get the contract from the network.
         const contract = network.getContract('medicine');
+
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
@@ -43,7 +44,7 @@ async function main(id) {
         //const result = await contract.evaluateTransaction('queryMedicineById', '101');
         //const result = await contract.evaluateTransaction('queryAllRecords2');
         //const result = await contract.evaluateTransaction('queryUser', email);
-        const result = await contract.evaluateTransaction('queryUserById', id);
+        const result = await contract.evaluateTransaction('getComplainById', id);
 
       
        // console.log(`Transaction has been evaluated, result is: ${result.toString()}`);

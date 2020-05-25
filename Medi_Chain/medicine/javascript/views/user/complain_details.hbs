@@ -1,0 +1,38 @@
+<br />
+<br />
+<center>
+
+    <h3>{{title}}</h3>
+</center>
+{{#if message}}
+<div class="alert alert-info">
+
+    <p>{{this.message}}</p>
+
+</div>
+{{/if}}
+
+<div>
+    {{#each complain  }}
+
+    <li>
+        <h4><i class="fa fa-database">
+                complain from {{ this.ComplaineeName }}({{this.ComplaineeId}})</i></h4>
+                <span>{{this.Time}}</span>
+                <br />
+                <br />
+        <p class="description">{{ this.Complain }}</p>
+         <a href="{{concate "/delete_complain/" this.Id }}" class="btn btn-secondary" role="button">
+                        Delete
+                </a>
+                 <a href="{{concate "/reply_complain/" this.ComplaineeId }}" class="btn btn-Dark" role="button">
+                        Reply
+                </a>
+        
+
+    </li>
+    {{/each}}
+    <br />
+    <br />
+</div>
+<a href="/" class="btn btn-success pull-right" role="button">Back to Home</a>

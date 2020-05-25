@@ -1,37 +1,47 @@
-
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <h1>Add Seller</h1>
-            {{#if message }}
-            <div class="alert alert-danger">
+        {{#if message }}
+        <div class="alert alert-info">
 
-                    <p>{{message}}</p>
-               
-            </div>
-             {{/if}}
-        
+            <p>{{message}}</p>
+
+        </div>
+        {{/if}}
+
         <form action="/addSeller" method="post">
-        <div class="form-group">
-            <label for="id">ID</label>
-            <input type="text" id="id" name="id" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control">
-        </div>
-         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email" class="form-control">
-        </div>
-         <div class="form-group">
+            <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" id="id" name="id" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" class="form-control">
+            </div>
+            <!--<div class="form-group">
             <label for="type">Seller Type</label>
             <input type="text" id="type" name="type" class="form-control">
-        </div>
-         
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-        <button type="submit" class="btn btn-info">Submit</button>
+        </div>-->
+            <label for="type">Seller Type</label><br/>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="type" value="producer">
+                <label class="form-check-label" for="type">producer</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="type" value="dealer">
+                <label class="form-check-label" for="type">dealer</label>
+                <br />
+            </div>
+            <br/>
+            <br/>
+
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button type="submit" class="btn btn-info">Submit</button>
         </form>
-         
+
     </div>
 </div>
-

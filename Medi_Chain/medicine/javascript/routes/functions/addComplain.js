@@ -12,7 +12,7 @@ const path = require('path');
 const ccpPath = path.resolve("/home/zummon/fabric/fabric-samples/first-network/connection-org1.json");
 
 
-async function main(key,complain_to,complainee_id,complainee_name,complain,time) {
+async function main(key,id,complain_to,complainee_id,complainee_name,complain,datetime) {
     try {
 
         // Create a new file system based wallet for managing identities.
@@ -36,7 +36,7 @@ async function main(key,complain_to,complainee_id,complainee_name,complain,time)
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('fabcar');
+        const contract = network.getContract('medicine');
 
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
@@ -48,7 +48,7 @@ async function main(key,complain_to,complainee_id,complainee_name,complain,time)
         //await contract.submitTransaction('createMedicine', 'm2','5', 'Exel', 'Beximco', '1-11-18', '3-10-19','Bexx')
         //await contract.submitTransaction('createUser', 'mm', '0001', 'zaman', 'gmail', '###', '01623', 'customer')
   
-        await contract.submitTransaction('addComplain',key,complain_to,complainee_id,complainee_name,complain,time);
+        await contract.submitTransaction('addComplain',key,id,complain_to,complainee_id,complainee_name,complain,datetime);
         console.log('Complain has been posted');
 
 

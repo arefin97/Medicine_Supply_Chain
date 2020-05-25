@@ -1,51 +1,65 @@
 <!--<div class="p-3 mb-2 bg-dark text-white">.bg dark</div>-->
 
-    <body class="container">
-        <div class="col-md-4 offset-md-4 centered">
-            <br />
-            <h1 style="text-align: center;color:black">Sign Up</h1>
-            <br />
-            {{#if message}}
-            <div class="alert alert-danger">
+<body class="container">
+    <div class="col-md-4 offset-md-4 centered">
+        <br />
+        <h1 style="text-align: center;color:black">Sign Up</h1>
+        <br />
+        {{#if message}}
+        <div class="alert alert-danger">
 
-                <p>{{this.message}}</p>
-
-            </div>
-            {{/if}}
-
-            <form action="/user/signup" method="POST">
-
-                <div class="form-group">
-                    <label for="id">NID/Licence ID</label>
-                    <input type="text" id="id" name="id" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" id="email" name="email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="text" id="password" name="password" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="text" id="phone" name="phone" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="userType">UserType</label>
-                    <input type="text" id="userType" name="userType" class="form-control">
-                </div>
-                <div class="form-group">
-                <input type="file" name="img" id="img" accept="image/*">
-            </div>
-                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                <button type="submit" class="btn btn-danger">Sign Up</button>
-            </form>
+            <p>{{this.message}}</p>
 
         </div>
+        {{/if}}
 
-    </body>
+        <form action="/user/signup" method="POST">
+
+            <div class="form-group">
+                <label for="id">NID/Licence ID</label>
+                <input type="text" id="id" name="id" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone" class="form-control">
+            </div>
+            
+            <label for="userType">UserType</label><br/>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="userType" id="userType"
+                    value="customer">
+                <label class="form-check-label" for="userType">customer</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="userType" id="userType"
+                    value="producer">
+                <label class="form-check-label" for="userType">producer</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="userType" id="userType" value="dealer">
+                <label class="form-check-label" for="userType">dealer</label>
+                <br />
+            </div>
+            <div class="form-group">
+                <br/>
+                <input type="file" name="img" id="img" accept="image/*">
+            </div>
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <button type="submit" class="btn btn-danger">Sign Up</button>
+        </form>
+
+    </div>
+
+</body>

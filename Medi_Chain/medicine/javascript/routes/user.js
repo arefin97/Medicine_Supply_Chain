@@ -49,7 +49,7 @@ router.get('/logout', function (req, res, next) {
    req.session.destroy(function () {
       console.log("user logged out.")
    });
-   res.redirect('/user/login');
+   res.redirect('/user/login',{csrfToken: req.csrfToken()});
 });
 router.get('/', checkSignIn, function (req, res, next) {
    next();
@@ -64,7 +64,7 @@ router.post('/signup', async function (req, res, next) {
    try {
       if (!req.body.email || !req.body.password) {
          res.status("400");
-         res.render('user/signup', { message: "Please,Fill up all field!!!" });
+         res.render('user/signup', { message: "Please,Fill up all field!!!",csrfToken: req.csrfToken() });
       } else {
          var result = await queryUser(req.body.email);
          //console.log(result);
@@ -96,9 +96,9 @@ router.post('/signup', async function (req, res, next) {
             req.session.UId = id;
             req.session.uType = userType;
             req.session.Img_Path=img;
-            req.session.Email=email;
+            req.session.email=email;
 
-            res.redirect('/user/profile');
+            res.redirect('/user/profile',{csrfToken: req.csrfToken()});
            }
            
            else{
@@ -131,7 +131,7 @@ router.get('/login', function (req, res, next) {
    res.render('user/login', { csrfToken: req.csrfToken() });
 });
 router.get('/admin', checkSignIn,function (req, res, next) {
-   res.render('user/profile');
+   res.render('user/profile',{csrfToken: req.csrfToken()});
 });
 
 router.post('/login', async function (req, res, next) {
@@ -139,18 +139,19 @@ router.post('/login', async function (req, res, next) {
       if (req.body.email === "admin97@gmail.com" && req.body.password === "inactive") {
          req.session.name = "admin";
          req.session.UId = "2016331070";
+         req.session.email="admin97@gmail.com";
          req.session.uType = "admin";
          req.session.Img_Path="bigstock-Doctor-With-Health-Insurance-H-304669417_1024X684.png";
          res.redirect('/user/profile');
       }
       else {
          if (!req.body.email || !req.body.password) {
-            res.render('user/login', { message: "Please enter both email and password" });
+            res.render('user/login', { message: "Please enter both email and password",csrfToken: req.csrfToken() });
          }
          var result = await queryUser(req.body.email);
          if (result === "[]") {
             req.session.error = true;
-            res.render('user/login', { message: "Email Not Found!" });
+            res.render('user/login', { message: "Email Not Found!" ,csrfToken: req.csrfToken()});
          }
          else {
             var obj = JSON.parse(result);
@@ -165,6 +166,7 @@ router.post('/login', async function (req, res, next) {
                req.session.UId = x.NID;
                req.session.uType = x.UserType;
                req.session.Img_Path=x.Img_Path;
+               req.session.email=x.Email;
                //req.session.email = x.Email;
                res.redirect('/user/profile');
             }
@@ -172,7 +174,7 @@ router.post('/login', async function (req, res, next) {
                req.session.error = true;
                //console.log("error er eikhane asche");
                //res.redirect('/user/login');
-               res.render('user/login', { message: "Invalid credentials!" });
+               res.render('user/login', { message: "Invalid credentials!",csrfToken: req.csrfToken() });
             }
          }
 
@@ -182,9 +184,6 @@ router.post('/login', async function (req, res, next) {
       return res.send(error.message);
    }
 });
-
-
-
 
 
 function checkSignIn(req, res, next) {

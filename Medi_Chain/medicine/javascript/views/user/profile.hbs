@@ -1,5 +1,6 @@
 <br />
 <br />
+<br/>
 <center>
         <h2>Profile</h2>
 </center>
@@ -22,32 +23,4 @@
         <pp class="position-relative">
                 <img src="{{concate "/"  Image }}" class="img-fluid" width="150" height="200" alt="Responsive image">
         </pp>
-</div>
-{{#if message}}
-<div class="alert alert-info">
-
-        <p>{{message}}</p>
-
-</div>
-{{/if}}
-{{#if_eq ID "2016331070"}}
-
-{{else}}
-
-<form action="/leave_complain" class="form my-2 my-lg-0" method="POST">
-<div class="form-group">
-                    <label for="complain_to">Complain To: </label>
-                    <input type="text" id="complain_to" name="complain_to" class="form-control"
-                    placeholder="put email whom you complain to(write 'admin' to complain to admin)">
-                </div>
-        <div class="form-group">
-                <label for="complain"></label>
-                <textarea class="form-control" id="complain" rows="5"
-                        placeholder="Write your complains here..."></textarea>
-        </div>
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Submit</button>
-
-</form>
-{{/if_eq}}
 </div>

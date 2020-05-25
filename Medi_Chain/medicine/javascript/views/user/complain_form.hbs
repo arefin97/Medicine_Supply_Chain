@@ -1,0 +1,37 @@
+<br/>
+<br/>
+<br/>
+<center><h3>Compose</h3></center>
+
+{{#if message}}
+<div class="alert alert-info">
+
+        <p>{{message}}</p>
+
+</div>
+{{/if}}
+
+
+<form action="/leave_complain" class="form my-2 my-lg-0" method="POST">
+<div class="form-group">
+                   
+                    {{#if email}}
+                    <label for="complain_to"> Reply to: </label>
+                    <input type="text" id="complain_to" name="complain_to" class="form-control"
+                  placeholder={{email}} value={{email}}>
+                  {{else}}
+                  <label for="complain_to">Complain To: </label>
+                    <input type="text" id="complain_to" name="complain_to" class="form-control"
+                    placeholder="put email whom you complain to(write 'admin' to complain to admin)">
+                    {{/if}}
+                </div>
+        <div class="form-group">
+                <label for="complain"></label>
+                <textarea name="complain" class="form-control" id="complain" rows="5"
+                        placeholder="Write your complains here..."></textarea>
+               
+        </div>
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Submit</button>
+
+</form>

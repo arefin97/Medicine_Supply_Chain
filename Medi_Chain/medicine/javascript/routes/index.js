@@ -19,7 +19,10 @@ var addFlag = require('./functions/addFlag');
 var getFlag = require('./functions/getFlag');
 var deleteData = require('./functions/deleteNoti');
 var changeMedicineOwner = require('./functions/changeMedicineOwner');
-
+var addComplain = require('./functions/addComplain');
+var getComplain = require('./functions/getComplain');
+var getComplainById = require('./functions/getComplainById');
+var queryUserById = require('./functions/queryUserById');
 
 var bcrypt = require('bcrypt')
 var groupBy = require('../routes/supportings/groupBy');
@@ -31,18 +34,18 @@ router.use(csrfProtection);
 
 var app = require("../app");
 
-function Product(id, name, company, ownerid, pdate, expdate, cStage, path, img_path, flag,del) {
+function Product(id, name, company, ownerid, pdate, expdate, cStage, path, img_path, flag, del) {
   this.Id = id;
   this.Name = name;
   this.PCompany = company;
   this.OwnerId = ownerid;
   this.Pdate = pdate;
   this.Expdate = expdate,
-  this.Currstage = cStage;
+    this.Currstage = cStage;
   this.Path = path;
   this.Img_path = img_path;
   this.Flg = flag;
-  this.del=del;
+  this.del = del;
   return this;
 };
 
@@ -88,7 +91,7 @@ router.post('/addSeller', async function (req, res, next) {
   var type = req.body.type;
   var key = makeid(20);
   await addSeller(key, id, name, email, type);
-  res.redirect('/');
+  res.render('medicine/addSeller', { message: type + " " + "added", csrfToken: req.csrfToken() });
 });
 //////
 router.get('/notification', async function (req, res, next) {
@@ -112,81 +115,66 @@ router.get('/notification', async function (req, res, next) {
 });
 ////////
 router.get('/viewAllMedicine', async function (req, res, next) {
-  // var successMsg = req.flash('success')[0];
-  //await addNotifications('d1','user1');
-  var result = await queryAllMedicine();
-  /*
-var ob = JSON.parse(result);
+  if (req.session.Uid != "2016331070") {
+    res.render('medicine/view_medicine', { message: "You not admin!!!", csrfToken: req.csrfToken() });
+  }
+  else {
 
-var products = [];
-
-for(var x in products){
-  products.push(ob[x]);
-}
-  */
+    // var successMsg = req.flash('success')[0];
+    //await addNotifications('d1','user1');
+    var result = await queryAllMedicine();
+    console.log("result: ", result);
+    /*
   var ob = JSON.parse(result);
-  var test = [];
-  for (var i = 0; i < ob.length; i += 1) {
-
-    var Array = ob[i].Record;
-    var id = Array.Id;
-    //test.push(Array);
-
-    var f_result = await getFlag(id);
-    var ff_result;
-    var fff_result;
-    var fff_id;
-    console.log("....", f_result);
-    if (f_result != "[]") {
-      ff_result = JSON.parse(f_result);
-      fff_result = ff_result[0].Record.Flg;
-      fff_id = ff_result[0].Record.BuyerId;
-      console.log("fff_id :", fff_id);
-      console.log(req.session.UId);
-    }
+  
+  var products = [];
+  
+  for(var x in products){
+    products.push(ob[x]);
+  }
+    */
+    var ob = JSON.parse(result);
+    var test = [];
     if (result === "[]") {
-      res.render('medicine/view_medicine', { message: "No result Found!", csrfToken: req.csrfToken() });
+      console.log("Enter");
+      res.render('home/welcome', { message: "No result Found!", csrfToken: req.csrfToken() });
     }
     else {
-      // var obj = JSON.parse(result);
-      //console.log("obj :", obj);
-      //var test = [];
-      //var Array = obj[0].Record;
-      //test.push(Array);
-      var del=false;
-      if(req.session.UId==="2016331070"||(req.session.uType==="producer"&&req.session.UId===Array.OwnerId)){
-        del=true;
+
+
+      for (var i = 0; i < ob.length; i += 1) {
+
+        var Array = ob[i].Record;
+        var id = Array.Id;
+        //test.push(Array);
+
+        var f_result = await getFlag(id);
+        var ff_result;
+        var fff_result;
+        var fff_id;
+        console.log("....", f_result);
+        if (f_result != "[]") {
+          ff_result = JSON.parse(f_result);
+          fff_result = ff_result[0].Record.Flg;
+          fff_id = ff_result[0].Record.BuyerId;
+          console.log("fff_id :", fff_id);
+          console.log(req.session.UId);
+        }
+        var del = false;
+        if (req.session.UId === "2016331070" || (req.session.uType === "producer" && req.session.UId === Array.OwnerId)) {
+          del = true;
+        }
+
+        var f = true;
+        if (f_result === "[]") f = true;
+        if ((fff_id === req.session.UId && f_result != "[]")) f = false;
+        if (!req.session.name) f = true;
+        test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f, del));
       }
-      
-      var f = true;
-      if (f_result === "[]") f = true;
-      if ((fff_id === req.session.UId && f_result != "[]")) f = false;
-      if (!req.session.name) f = true;
-      test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f,del));
+
+      res.render('medicine/view_medicine', { title: "Medicine", products: test, del: del, csrfToken: req.csrfToken() });
     }
   }
-  //console.log(test);
-  //console.log(Array);
-  //var Property = "Id";
-  //var product = [];
-  //product.push(new Product(Array.Name,Array.PCompany,Array.Currstage));
-  //var productById = groupBy(Array, Property); 
-  //console.log(productById);
-  //docs.push(productById);
-  //docs.push(Array);
-  //console.log(product);
-
-
-  /*Product.find(function (err, docs) {
-    var productChunks = [];
-    var chunkSize = 3;
-    for (var i = 0; i < docs.length; i += chunkSize) {
-        productChunks.push(docs.slice(i, i + chunkSize));
-    }*/
-  //console.log(productChunks);
-  // console.log(docs);
-  res.render('medicine/view_medicine', { title: "Medicine", products: test,del:del, csrfToken: req.csrfToken() });
-  // });
 });
 
 router.get('/insertMedicine', async function (req, res, next) {
@@ -208,9 +196,48 @@ router.post('/insertMedicine', async function (req, res, next) {
   await createMedicine(key, id, name, company, ownerId, pDate, expDate, cStage, img1);
 
   //res.send(JSON.stringify({ key,id, name, company, pDate, expDate, cStage}));
+  var result = await queryMedicine(id);
+  var f_result = await getFlag(id);
+  var ff_result;
+  var fff_result;
+  var fff_id;
+  console.log("....", f_result);
+  if (f_result != "[]") {
+    ff_result = JSON.parse(f_result);
+    fff_result = ff_result[0].Record.Flg;
+    fff_id = ff_result[0].Record.BuyerId;
+    console.log("fff_id :", fff_id);
+    console.log(req.session.UId);
+  }
+  if ((result === "[]") || (fff_id != req.session.UId && f_result != "[]")) {
+    res.render('medicine/view_medicine', { message: "No result Found!", csrfToken: req.csrfToken() });
+  }
+  else {
+    var obj = JSON.parse(result);
+    console.log("obj :", obj);
+    var test = [];
+    var Array = obj[0].Record;
+    var del = false;
+    if (req.session.UId === "2016331070" || (req.session.uType === "producer" && req.session.UId === Array.OwnerId)) {
+      del = true;
+    }
+    //test.push(Array);
+    var f = true;
+    if (f_result === "[]") f = true;
+    if ((fff_id === req.session.UId && f_result != "[]")) f = false;
+    if (!req.session.name) f = true;
+    test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f, del));
 
-  console.log("Medicine added");
-  res.redirect('/');
+
+    console.log(test);
+    // res.redirect('/home/welcome',{name:x.Name,ID:x.Id,pCompany:x.Pcompany,pDate:x.Pdate,expDate:x.Expdate,cStage:x.Currstage});
+    res.render('medicine/view_medicine', { title: 'Medicine', message: "Medicine added", products: test, del: del, csrfToken: req.csrfToken() });
+    // res.redirect('/home/welcome',{title: 'Medicine', products: productChunks, successMsg: "succes!", noMessages: !successMsg});
+    //res.send(result.toString());
+
+    console.log("query completed");
+  }
+
 });
 
 
@@ -247,16 +274,16 @@ router.post('/queryMedicineById', async function (req, res, next) {
     console.log("obj :", obj);
     var test = [];
     var Array = obj[0].Record;
-    var del=false;
-    if(req.session.UId==="2016331070"||(req.session.uType==="producer"&&req.session.UId===Array.OwnerId)){
-      del=true;
+    var del = false;
+    if (req.session.UId === "2016331070" || (req.session.uType === "producer" && req.session.UId === Array.OwnerId)) {
+      del = true;
     }
     //test.push(Array);
     var f = true;
     if (f_result === "[]") f = true;
     if ((fff_id === req.session.UId && f_result != "[]")) f = false;
     if (!req.session.name) f = true;
-    test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f,del));
+    test.push(new Product(Array.Id, Array.Name, Array.PCompany, Array.OwnerId, Array.Pdate, Array.Expdate, Array.Currstage, Array.Path, Array.Img_path, f, del));
     //var Property = "Id";
     //var productById = _.groupBy(Array, Property);
     //docs.push(productById);
@@ -266,7 +293,7 @@ router.post('/queryMedicineById', async function (req, res, next) {
 
     console.log(test);
     // res.redirect('/home/welcome',{name:x.Name,ID:x.Id,pCompany:x.Pcompany,pDate:x.Pdate,expDate:x.Expdate,cStage:x.Currstage});
-    res.render('medicine/view_medicine', { title: 'Medicine', products: test,del:del, csrfToken: req.csrfToken() });
+    res.render('medicine/view_medicine', { title: 'Medicine', products: test, del: del, csrfToken: req.csrfToken() });
     // res.redirect('/home/welcome',{title: 'Medicine', products: productChunks, successMsg: "succes!", noMessages: !successMsg});
     //res.send(result.toString());
 
@@ -313,9 +340,9 @@ router.get('/buy_click/:id', async function (req, res, next) {
     var buyerId = req.session.UId;
     //console.log("buyerID :",buyerId);
     var buyerName = req.session.name;
-    var datetime = new Date();
+    var datetime = new Date().toString();
     //console.log("time :", datetime);
-    await addNotifications(key1, Array.OwnerId, Array.Currstage, buyerId, buyerName, prodId,datetime);
+    await addNotifications(key1, Array.OwnerId, Array.Currstage, buyerId, buyerName, prodId, datetime);
     var test = [];
     //for (var i = 0; i < ob3.length; i +=1) {
 
@@ -396,11 +423,11 @@ router.get('/confirm_click/:id', async function (req, res, next) {
   await addPath(key1, rrr1.BuyerName);
   //add History
   var kkey = makeid(20);
-  var datetime = new Date();
+  var datetime = new Date().toString();
 
-  await addHistory(kkey, rrr1.SellerId, rrr1.ProductId, "Sold", rrr1.BuyerId,datetime,"to");
+  await addHistory(kkey, rrr1.SellerId, rrr1.ProductId, "Sold", rrr1.BuyerId, datetime, "to");
   var kkkey = makeid(20)
-  await addHistory(kkkey, rrr1.BuyerId, rrr1.ProductId, "Bought", rrr1.SellerId,datetime,"from");
+  await addHistory(kkkey, rrr1.BuyerId, rrr1.ProductId, "Bought", rrr1.SellerId, datetime, "from");
   //notification delete
   await deleteData(key);
   //delete flag
@@ -411,7 +438,7 @@ router.get('/confirm_click/:id', async function (req, res, next) {
   console.log("key :", key5);
   await deleteData(key5);
 
-  res.redirect('/notification');
+  res.redirect('/notification', { csrfToken: req.csrfToken() });
 });
 ////
 router.get('/reject_click/:id', async function (req, res, next) {
@@ -436,7 +463,7 @@ router.get('/reject_click/:id', async function (req, res, next) {
   console.log("key :", key1);
   await deleteData(key1);
 
-  res.redirect('/notification');
+  res.redirect('/notification', { csrfToken: req.csrfToken() });
 });
 //////
 //view transaction
@@ -465,37 +492,41 @@ router.get('/delete_medicine/:id', async function (req, res, next) {
   console.log("delete medicine er id paitesi: ", prodId);
   var result = await queryMedicine(prodId);
   var ob = JSON.parse(result);
-  var rr = ob[0].Record;
-  var key = rr[0].Key;
+  //var rr = ob[0].Record;
+  var key = ob[0].Key;
   await deleteData(key);
- 
-    res.redirect('/viewAllMedicine', { csrfToken: req.csrfToken() });
+
+  res.render('medicine/view_medicine', { message: "Medicine successfully deleted", csrfToken: req.csrfToken() });
 });
 /////
 router.get('/leave_complain', async function (req, res, next) {
-  res.render(res.redirect(req.get('referrer')), { csrfToken: req.csrfToken() });
+  res.render('user/complain_form', { csrfToken: req.csrfToken() });
 });
 
 router.post('/leave_complain', async function (req, res, next) {
-  var complain_to=req.body.complain_to;
-  var complain=req.body.complain;
-  var datetime = new Date();
+  var complain_to = req.body.complain_to;
+  var complain = req.body.complain;
+  //var complain=complain1.toString();
+  console.log("complain: ", complain);
+  var datetime1 = new Date();
+  var datetime = datetime1.toString();
   console.log("time :", datetime);
-  if(complain_to==="admin" ){
-    complain_to="admin97@gmail.com";
+  if (complain_to === "admin") {
+    complain_to = "admin97@gmail.com";
   }
   var complainee_name = req.session.name;
   var complainee_id = req.session.UId;
-var key=makeid(20);
-  await addComplain(key,complain_to,complainee_id,complainee_name,complain,time);
-  res.render(res.redirect(req.get('referrer')), { message:"Your complain has been posted",csrfToken: req.csrfToken() });
+  var key = makeid(20);
+  var id = key;
+  await addComplain(key, id, complain_to, complainee_id, complainee_name, complain, datetime);
+  res.render(res.redirect(req.get('referrer')), { message: "Your complain has been posted", csrfToken: req.csrfToken() });
 });
 /////
 //check_complain
 router.get('/check_complain', async function (req, res, next) {
-  var email=req.session.Email;
+  var email = req.session.email;
   console.log("check complain er id paitesi: ", email);
-  var result=await getComplain(email);
+  var result = await getComplain(email);
   if (result === "[]") {
     res.render('user/complain', { message: "No complain to you.", csrfToken: req.csrfToken() });
   }
@@ -509,4 +540,72 @@ router.get('/check_complain', async function (req, res, next) {
     res.render('user/complain', { title: "Complains", complain: test, csrfToken: req.csrfToken() });
   }
 });
+/////
+router.get('/complain_details/:id', async function (req, res, next) {
+  var id = req.params.id;
+  console.log("details complain er id paitesi: ", id);
+  var result = await getComplainById(id);
+
+  if (result === "[]") {
+    res.render('user/complain_details', { title: "Complains", message: "No complain to you.", csrfToken: req.csrfToken() });
+  }
+  else {
+    var ob = JSON.parse(result);
+    var test = [];
+    for (var i = 0; i < ob.length; i += 1) {
+      var arr = ob[i].Record;
+      test.push(arr);
+    }
+    res.render('user/complain_details', { title: "Complains", complain: test, csrfToken: req.csrfToken() });
+  }
+});
+
+router.get('/delete_complain/:id', async function (req, res, next) {
+  var id = req.params.id;
+  console.log("details complain er id paitesi: ", id);
+  var result = await getComplainById(id);
+  var ob = JSON.parse(result);
+  var key1 = ob[0].Key;
+  await deleteData(key1);
+
+  res.render('user/complain_details', { title: "Complains", message: "Complain Successfully deleted", csrfToken: req.csrfToken() });
+});
+
+router.get('/reply_complain/:id', async function (req, res, next) {
+  var id = req.params.id;
+  var result = await queryUserById(id);
+  var ob = JSON.parse(result);
+  var email = ob[0].Record.Email;
+  res.render('user/complain_form', { email: email, csrfToken: req.csrfToken() });
+});
+router.post('/reply_complain', async function (req, res, next) {
+  var complain_to = req.body.email;
+  var complain = req.body.complain;
+  //var complain=complain1.toString();
+  console.log("complain: ", complain);
+  var datetime1 = new Date();
+  var datetime = datetime1.toString();
+  console.log("time :", datetime);
+  if (complain_to === "admin") {
+    complain_to = "admin97@gmail.com";
+  }
+  var complainee_name = req.session.name;
+  var complainee_id = req.session.UId;
+  var key = makeid(20);
+  var id = key;
+  await addComplain(key, id, complain_to, complainee_id, complainee_name, complain, datetime);
+  res.render(res.redirect(req.get('referrer')), { message: "You replied to this complain", csrfToken: req.csrfToken() });
+});
+
+
+function checkSignIn(req, res, next) {
+  if (req.session.name) {
+    next();     //If session exists, proceed to page
+  } else {
+    //res.redirect('/');
+    var err = new Error("Not logged in!");
+    console.log(req.session.name);
+    next(err);  //Error, trying to access unauthorized page!
+  }
+}
 module.exports = router;
