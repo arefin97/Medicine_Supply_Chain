@@ -1,8 +1,9 @@
-<div class="row">
-    <div class="col-md-4 col-md-offset-4">
-        <h1>Add Seller</h1>
+<br/>
+<body class="container" >
+    <div class="col-md-4 offset-md-4 centered">
+        <h1 style="text-align: center;color:white">Add Seller</h1>
         {{#if message }}
-        <div class="alert alert-info">
+        <div class="alert alert-{{mode}}">
 
             <p>{{message}}</p>
 
@@ -10,15 +11,15 @@
         {{/if}}
 
         <form action="/addSeller" method="post">
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="id">ID</label>
                 <input type="text" id="id" name="id" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="email">Email</label>
                 <input type="text" id="email" name="email" class="form-control">
             </div>
@@ -26,12 +27,12 @@
             <label for="type">Seller Type</label>
             <input type="text" id="type" name="type" class="form-control">
         </div>-->
-            <label for="type">Seller Type</label><br/>
-            <div class="form-check form-check-inline">
+            <label for="type" style="color: white">Seller Type</label><br/>
+            <div class="form-check form-check-inline" style="color:white">
                 <input class="form-check-input" type="radio" name="type" id="type" value="producer">
                 <label class="form-check-label" for="type">producer</label>
             </div>
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline" style="color:white">
                 <input class="form-check-input" type="radio" name="type" id="type" value="dealer">
                 <label class="form-check-label" for="type">dealer</label>
                 <br />
@@ -44,4 +45,4 @@
         </form>
 
     </div>
-</div>
+    </body>

@@ -2,9 +2,7 @@
 <br/>
 <br/>
 
-<center>
-  <h3>{{ title }}</h3>
-</center>
+  <h3 style="text-align: center;color:white">{{title}}</h3>
 {{#if message}}
 <div class="alert alert-info">
 
@@ -16,10 +14,13 @@
 <div>
   {{#each notifications  }}
   <li>
-    <h4><i class="fa fa-forumbee">
-        Buy request from {{ this.BuyerId }} for product {{ this.ProductId }}</i></h4>
-        <h6>{{ this.Time }}</h6>
+    <h4><i class="fa fa-forumbee" style="color: white">
+<a class="nav-link" style="color:white" href="/user/profile">Welcome, {{ name }}</a>
 
+        Buy request from <a style="color:yellow" href="{{concate "/viewUser/" this.BuyerId }}">{{this.BuyerId}}</a> for product <a style="color:yellow" href="{{concate "/queryMedicineById/" this.ProductId }}">{{this.ProductId}}</a></i></h4>
+        <span>{{ this.Time }}</span>
+<br/>
+<br/>
     <a href="{{concate "/confirm_click/" this.ProductId}}" class="btn btn-success pull-left" role="button">Confirm</a>
     <a href="{{concate "/reject_click/" this.ProductId}}" class="btn btn-secondary pull-rirgt" role="button">Delete</a>
 

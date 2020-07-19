@@ -1,13 +1,12 @@
 <br />
 <br />
 <center>
-
-    <h3>{{title}}</h3>
+<h3 style="text-align: center;color:brown">{{title}}</h3>
 </center>
 {{#if message}}
 <div class="alert alert-info">
 
-    <p>{{this.message}}</p>
+    <p>{{message}}</p>
 
 </div>
 {{/if}}
@@ -16,16 +15,16 @@
     {{#each complain  }}
 
     <li>
-        <h4><i class="fa fa-database">
+        <h4><i class="fa fa-database" style="color: white">
                 complain from {{ this.ComplaineeName }}({{this.ComplaineeId}})</i></h4>
                 <span>{{this.Time}}</span>
                 <br />
                 <br />
-        <p class="description">{{ this.Complain }}</p>
+        <p class="description" style="color: snow">{{ this.Complain }}</p>
          <a href="{{concate "/delete_complain/" this.Id }}" class="btn btn-secondary" role="button">
                         Delete
                 </a>
-                 <a href="{{concate "/reply_complain/" this.ComplaineeId }}" class="btn btn-Dark" role="button">
+                 <a href="{{concate "/reply_complain/" this.ComplaineeId }}" class="btn btn-info" role="button">
                         Reply
                 </a>
         

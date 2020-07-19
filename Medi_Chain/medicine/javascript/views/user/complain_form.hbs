@@ -1,10 +1,10 @@
 <br/>
 <br/>
 <br/>
-<center><h3>Compose</h3></center>
+<h3 style="text-align: center;color:white">Compose</h3>
 
 {{#if message}}
-<div class="alert alert-info">
+<div class="alert alert-success">
 
         <p>{{message}}</p>
 
@@ -16,17 +16,17 @@
 <div class="form-group">
                    
                     {{#if email}}
-                    <label for="complain_to"> Reply to: </label>
+                    <label for="complain_to" style="color: honeydew"> Reply to: </label>
                     <input type="text" id="complain_to" name="complain_to" class="form-control"
                   placeholder={{email}} value={{email}}>
                   {{else}}
-                  <label for="complain_to">Complain To: </label>
+                  <label for="complain_to" style="color: honeydew">Complain To: </label>
                     <input type="text" id="complain_to" name="complain_to" class="form-control"
                     placeholder="put email whom you complain to(write 'admin' to complain to admin)">
                     {{/if}}
                 </div>
         <div class="form-group">
-                <label for="complain"></label>
+                <label for="complain" style="color: honeydew"></label>
                 <textarea name="complain" class="form-control" id="complain" rows="5"
                         placeholder="Write your complains here..."></textarea>
                

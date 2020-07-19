@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var session = require('express-session');
 var validator = require('express-validator');
+const date = require('date-and-time');
+
 var csrf = require('csurf');
 var csrfProtection=csrf();
 //var enrollAdmin = require('./routes/functions/enrollAdmin');
@@ -100,6 +102,7 @@ app.use(session({
 app.use(function(req, res, next) {
   res.locals.login = req.session.UId;
   res.locals.name = req.session.name;
+ 
   res.locals.userType = req.session.uType;
   res.locals.Img_Path = req.session.Img_Path;
   console.log("asche :",res.locals.login);

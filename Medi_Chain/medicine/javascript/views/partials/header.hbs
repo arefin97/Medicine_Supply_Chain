@@ -17,9 +17,15 @@
             Home
           </a>
         </li>
+        {{#if login}}
+        {{#if_eq login "2016331070"}}
+
+        {{else}}
         <li class="nav-item">
-          <a class="nav-link" style="color:white" href="#">Link</a>
+          <a class="nav-link" style="color:white" href="/viewAllMedicineOfYourStock">Check Stock</a>
         </li>
+        {{/if_eq}}
+        {{/if}}
         {{#if login}}
         <li>
           <a class="navbar-brand" style="color:white" href="/notification"><i class="fa fa-bell"
@@ -66,7 +72,7 @@
           <a class="nav-link" style="color:white" href="/viewAllMedicine"><i class="fa fa-eye"
               style="color:white">View All</i></a>
         </li>
-        
+       
         {{/if_eq}}
          <!--for producer-->
         {{#if_eq userType "producer"}}
@@ -89,7 +95,7 @@
       <!-- Sidebar Header-->
       <!-- Sidebar Header-->
       <div class="col-2 float-right">
-        <a class="nav-link" style="color:white" href="#">
+        <a class="nav-link" style="color:white" href="/user/profile">
           <img src="{{concate "/"  Img_Path }}" width="30" height="30" alt="..."
             class="img-fluid rounded-circle">
           Welcome, {{ name }}

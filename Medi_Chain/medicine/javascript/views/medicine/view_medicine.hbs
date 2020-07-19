@@ -1,32 +1,54 @@
-<br />
-<br/>
-<div class="" style="height: 500px;">
-  {{#if message}}
-  <div class="alert alert-danger">
-    <p>{{message}}</p>
-  </div>
-  {{/if}}
-  <div>
+<body class="container">
+  <div class="col-md-4 offset-md-4 centered">
+    <br />
+
+    <br />
+    <!--<div class="" style="height: 500px;">-->
+      <div>
+    {{#if message}}
+    <div class="alert alert-danger">
+      <p>{{message}}</p>
+    </div>
+    {{/if}}
     <br>
-    {{#each products  }}
-    <div class="row">
-      <div class="col-sm-6 col-md-4">
+    
+      {{#each products  }}
+      <div class="row">
+        <div class="col-sm-6 col-md-4"></div>
+
         <div class="thumbnail">
-          <img src="{{concate "/" this.Img_path }}" alt="..." class="">
+          <img src="{{concate "/" this.Img_path }}" alt="..." class="responsive">
           <div class="caption">
             <h3>{{ this.Name }}</h3>
-            <p class="description">Production Company: {{ this.PCompany }}</p>
-            <div class="clearfix">
-              <div class="pull-left">Current Stage: {{ this.Currstage }}</div>
-              <br /><br />
-              <!-- <a href="/view_details/{{this._id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
-              <!--<a href="/view_details/{{this.Id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
-              <a href="{{concate "/view_details/" this.Id}}" class="btn btn-success pull-right" role="button">View
-                Details</a>
-              {{#if del}}
-              <a href="{{concate "/delete_medicine/" this.Id}}" class="btn btn-secondary pull-left" role="button">Delete
-                Medicine</a>
+          </div>
+          <div>
+            <p class="description">Mfg Company: {{ this.PCompany }}</p>
+            <p class="description">Current Stage: {{ this.Currstage }}</p>
+          </div>
+          <br /><br />
+          
+          
+          <!-- <a href="/view_details/{{this._id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
+          <!--<a href="/view_details/{{this.Id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
+          <a href="{{concate "/view_details/" this.Id}}" class="btn btn-success pull-right" role="button">View
+            Details</a>
+        
+          {{#if del}}
+          {{#if this.expired}}
+          <button type="button" class="btn btn-danger pull-left" disabled>Expired!!!</button>
+          
+          <a href="{{concate "/delete_medicine/" this.Id}}" class="btn btn-secondary pull-left" role="button">Delete
+            Medicine</a>
+          
+            {{else}}
+            <a href="{{concate "/delete_medicine/" this.Id}}" class="btn btn-secondary pull-left" role="button">Delete
+              Medicine</a>
+            {{/if}}
+            {{else}}
+            {{#if this.expired}}
+            <button type="button" class="btn btn-danger" disabled>Expired!!!</a>
               {{else}}
+              
               {{#if this.Flg }}
               <a href="{{concate "/buy_click/" this.Id}}" class="btn btn-success pull-left" role="button">Buy</a>
 
@@ -36,15 +58,16 @@
 
               {{/if}}
               {{/if}}
+              {{/if}}
 
-            </div>
-          </div>
         </div>
       </div>
-
     </div>
+
+
     <br />
     <br />
     {{/each}}
   </div>
-</div>
+  </div>
+</body>

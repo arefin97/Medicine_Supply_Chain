@@ -1,9 +1,9 @@
 <!--<div class="p-3 mb-2 bg-dark text-white">.bg dark</div>-->
 
-<body class="container">
+<body class="container" >
     <div class="col-md-4 offset-md-4 centered">
         <br />
-        <h1 style="text-align: center;color:black">Sign Up</h1>
+        <h1 style="text-align: center;color:rgb(157, 216, 250)">Sign Up</h1>
         <br />
         {{#if message}}
         <div class="alert alert-danger">
@@ -13,47 +13,45 @@
         </div>
         {{/if}}
 
-        <form action="/user/signup" method="POST">
+        <form action="/user/signup" method="POST" >
 
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="id">NID/Licence ID</label>
                 <input type="text" id="id" name="id" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="email">Email</label>
                 <input type="text" id="email" name="email" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="password">Password</label>
                 <input type="text" id="password" name="password" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="phone">Phone</label>
                 <input type="text" id="phone" name="phone" class="form-control">
             </div>
-            
-            <label for="userType">UserType</label><br/>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="userType" id="userType"
-                    value="customer">
-                <label class="form-check-label" for="userType">customer</label>
+
+            <label for="userType" style="color:white">UserType</label><br />
+            <div class="form-check form-check-inline" style="color:white">
+                <input class="form-check-input" type="radio" name="userType" id="userType" value="customer">
+                <label class="form-check-label" style="color:white" for="userType">customer</label>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="userType" id="userType"
-                    value="producer">
+            <div class="form-check form-check-inline" style="color:white">
+                <input class="form-check-input" type="radio" name="userType" id="userType" value="producer">
                 <label class="form-check-label" for="userType">producer</label>
             </div>
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline" style="color:white">
                 <input class="form-check-input" type="radio" name="userType" id="userType" value="dealer">
                 <label class="form-check-label" for="userType">dealer</label>
                 <br />
             </div>
-            <div class="form-group">
-                <br/>
+            <div class="form-group" style="color:white">
+                <br />
                 <input type="file" name="img" id="img" accept="image/*">
             </div>
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">

@@ -1,17 +1,34 @@
 body {
     padding: 50px;
+    background-image: url("../back4.jpg");
+   
+    background-color: rgb(0, 0, 0);
+
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   }
 
 a {
   color: #00B7FF;
 }
+
+.thumbnail .caption {
+   color: rgb(192, 221, 62)
+}
 .thumbnail img {
-    max-height: 150px;
+    max-height: 170px;
+    min-height: 170px;
+    max-width: 250px;
+    min-width: 250px;
+    border: 1px solid #ddd;
+  border-radius: 4px;
+    color: rgb(7, 15, 17);
+    position: center;
 }
 
 .thumbnail .description {
-    color: #7f7f7f;
+    color: #eee7e7;
+    position: center;
+    
 }
 
 .price {
@@ -21,9 +38,17 @@ a {
 
 .container{
     max-width: unset;
+    
 }
 .homeStyle{
-    background-image: url('../Welcome.jpg') ;
+    background-image: url('../welcome3-removebg-preview\ \(2\).png') ;
+    background-repeat: no-repeat;
+    background-size:unset;
+    background-position: center;
+
+}
+.backStyle{
+    background-image: url('../Page-12-13-All-About-Medicine.jpg') ;
     background-repeat: no-repeat;
     background-size:unset;
     background-position: center;
@@ -50,9 +75,10 @@ p1{
     left: 300px; 
     padding: 2px; 
     display: inline-block; 
-    background:white; 
+
     } 
 
 span{
     font-size: 0.7em;
+    color: wheat;
 }

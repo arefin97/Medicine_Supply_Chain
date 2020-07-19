@@ -1,17 +1,18 @@
 <br />
 <br />
-<br/>
+
 
 <center>
     <!--<h3>{{title}}</h3>-->
-    <h3>Complains</h3>
+     <button type="button" class="btn btn-danger btn-lg" disabled>{{title}}</button>
 </center>
+<br/>
 {{#if message}}
-<!--<div class="alert alert-info">
+<div class="alert alert-warning">
 
     <p>{{message}}</p>
 
-</div>-->
+</div>
 {{/if}}
 
 <div>
@@ -21,9 +22,10 @@
     {{#each complain  }}
 
     <li>
-        <h4><i class="fa fa-database">
-                complain from {{ this.ComplaineeName }}({{this.ComplaineeId}})</i></h4>
+        <h4><i class="fa fa-database" style="color:thistle">
+                Message from <a style="color:yellow" href="{{concate "/viewUser/" this.ComplaineeId }}">{{this.ComplaineeId}}</a>({{this.ComplaineeName}})</i></h4>
                 <span>{{this.Time}}</span>
+                 
                 <br />
                 <br />
         <a href="{{concate "/complain_details/" this.Id }}" class="btn btn-info" role="button">

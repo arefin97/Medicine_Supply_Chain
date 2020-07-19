@@ -1,0 +1,38 @@
+<body class="container">
+    <div class="col-md-4 offset-md-4 centered">
+        <br />
+        <br />
+        <!--<div class="" style="height: 500px;">-->
+        <div>
+            {{#if message}}
+            <div class="alert alert-danger">
+                <p>{{message}}</p>
+            </div>
+            {{/if}}
+            <br>
+            {{#each user  }}
+            <div class="row">
+                <div class="col-sm-6 col-md-4"></div>
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ this.Name }}</h3>
+                    </div>
+                    <div>
+                        <p class="description"> {{ this.UserType }}</p>
+                    </div>
+                    <br /><br />
+                    <!-- <a href="/view_details/{{this._id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
+                    <!--<a href="/view_details/{{this.Id}}" class="btn btn-success pull-right" role="button">View Details</a>-->
+                    <a href="{{concate "/view_user_details/" this.Id}}" class="btn btn-success pull-right" role="button">View
+                        Details</a>
+                    <a href="{{concate "/delete_user/" this.Id}}" class="btn btn-secondary pull-left"
+                        role="button">Delete
+                        User</a>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        {{/each}}
+    </div>
+</body>

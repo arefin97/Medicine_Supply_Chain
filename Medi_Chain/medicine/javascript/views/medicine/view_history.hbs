@@ -1,9 +1,8 @@
 <br />
 <br />
-<center>
-  
-    <h3>{{title}}</h3>
-</center>
+<br />
+
+    <h3 style="text-align: center;color:white">{{title}}</h3>
 {{#if message}}
 <div class="alert alert-info">
 
@@ -16,10 +15,11 @@
     {{#each history  }}
 
     <li>
-        <h4><i class="fa fa-database">
-                You {{ this.Ttype }} product of Id {{ this.PId }} {{this.To_From}} {{ this.DealWith}}</i></h4>
+        <h4><i class="fa fa-database" style="color: white">
+                You {{ this.Ttype }} product of Id <a style="color:yellow" href="{{concate "/queryMedicineById/" this.PId }}">{{this.PId}}</a> {{this.To_From}} <a style="color:yellow" href="{{concate "/viewUser/" this.DealWith }}">{{this.DealWith}}</a></i></h4>
     </li>
-    <h6>{{this.DateTime}}</h6>
+   
+    <h6 style="color:wheat">{{this.DateTime}}</h6>
     {{/each}}
 </div>
 <a href="/" class="btn btn-success pull-right" role="button">Back to Home</a>

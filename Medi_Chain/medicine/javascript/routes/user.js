@@ -18,6 +18,18 @@ var csrfProtection = csrf();
 var app = require("../app");
 router.use(csrfProtection);
 
+function User(id, name, email, phone, userType, img,not_own) {
+   this.NID = id;
+   this.Name = name;
+   this.Email = email;
+   this.Phone = phone;
+   this.UserType = userType;
+   this.Img_Path = img;
+   this.not_own=not_own;
+ 
+   return this;
+ };
+
 function makeid(length) {
    var result = '';
    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -35,21 +47,29 @@ function enc_password(pass) {
 
 router.get('/profile', checkSignIn, async function (req, res, next) {
    var result = await queryUserById(req.session.UId);
+   var test=[];
+   var not_own=false;
    if(result==="[]"){
-      res.render('user/profile', {Name: "admin",ID: "2016331070",Email: "admin97@gmail.com",Phone: "+880 0317777",UserType: "admin",Image:"bigstock-Doctor-With-Health-Insurance-H-304669417_1024X684.png",csrfToken: req.csrfToken()})
+      test.push(new User("2016331070", "Admin", "admin97@gmail.com", "+880 0317777", "admin", "bigstock-Doctor-With-Health-Insurance-H-304669417_1024X684.png",not_own));
+      //res.render('user/profile', {Name: "admin",ID: "2016331070",Email: "admin97@gmail.com",Phone: "+880 0317777",UserType: "admin",Image:"bigstock-Doctor-With-Health-Insurance-H-304669417_1024X684.png",csrfToken: req.csrfToken()})
    }
    else{
    var obj = JSON.parse(result);
-   var x = obj[0].Record;
-   res.render('user/profile', {Name: x.Name,ID: x.NID,Email: x.Email,Phone: x.Phone,UserType: x.UserType,Image:x.Img_Path,csrfToken: req.csrfToken()});
+   var Array = obj[0].Record;
+
+   test.push(new User(Array.NID, Array.Name, Array.Email, Array.Phone, Array.UserType, Array.Img_Path,not_own));
+   //res.render('user/profile', {Name: x.Name,ID: x.NID,Email: x.Email,Phone: x.Phone,UserType: x.UserType,Image:x.Img_Path,csrfToken: req.csrfToken()});
+   
    }
+   console.log("test: ",test);
+   res.render('user/profile', {user:test,csrfToken: req.csrfToken()});
 });
 
 router.get('/logout', function (req, res, next) {
    req.session.destroy(function () {
       console.log("user logged out.")
    });
-   res.redirect('/user/login',{csrfToken: req.csrfToken()});
+   res.redirect('/user/login');
 });
 router.get('/', checkSignIn, function (req, res, next) {
    next();
@@ -72,7 +92,7 @@ router.post('/signup', async function (req, res, next) {
          if (result === "[]") {
             var id = req.body.id;
             var name = req.body.name;
-            var email = req.body.email;
+            var email = req.body.email.toLowerCase();
             var pass = req.body.password;
 
             var phone = req.body.phone;
@@ -98,7 +118,7 @@ router.post('/signup', async function (req, res, next) {
             req.session.Img_Path=img;
             req.session.email=email;
 
-            res.redirect('/user/profile',{csrfToken: req.csrfToken()});
+            res.redirect('/user/profile');
            }
            
            else{
@@ -148,8 +168,9 @@ router.post('/login', async function (req, res, next) {
          if (!req.body.email || !req.body.password) {
             res.render('user/login', { message: "Please enter both email and password",csrfToken: req.csrfToken() });
          }
-         var result = await queryUser(req.body.email);
+         var result = await queryUser(req.body.email.toLowerCase());
          if (result === "[]") {
+            
             req.session.error = true;
             res.render('user/login', { message: "Email Not Found!" ,csrfToken: req.csrfToken()});
          }
@@ -161,7 +182,8 @@ router.post('/login', async function (req, res, next) {
             // console.log(x.NID);
             //res.send(result.toString());
 
-            if (x.Email === req.body.email && x.Password === req.body.password) {
+            if (x.Email.toLowerCase() === req.body.email.toLowerCase() && x.Password === req.body.password) {
+               
                req.session.name = x.Name;
                req.session.UId = x.NID;
                req.session.uType = x.UserType;

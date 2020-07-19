@@ -1,9 +1,9 @@
 <body class="container">
     <div class="col-md-4 offset-md-4 centered">
         <br />
-        <br/>
-        <br/>
-        <h1 style="text-align: center;color:black">Insert Medicine</h1>
+        <br />
+        <br />
+        <h1 style="text-align: center;color:white">Insert Medicine</h1>
         <br />
         {{#if message}}
         <div class="alert alert-danger">
@@ -13,35 +13,20 @@
         </div>
         {{/if}}
         <form action="/insertMedicine" method="POST">
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <label for="name">Name:</label>
                 <input type="text" name="name" id="name" class="form-control">
             </div>
-            <div class="form-group">
-                <label for="id">Id:</label>
+            <div class="form-group" style="color:white">
+                <label for="id">Medicine Id:</label>
                 <input type="text" name="id" id="id" class="form-control">
             </div>
-            <div class="form-group">
-                <label for="cStage">Currstage:</label>
-                <input type="text" name="cStage" id="cStage" class="form-control">
+            
+            <div class="form-group" style="color:white">
+                <label for="val_month">Validity:</label>
+                <input type="text" name="val_month" id="val_month" placeholder="month(example: 24)" class="form-control">
             </div>
-            <div class="form-group">
-                <label for="company">PCompany:</label>
-                <input type="text" name="company" id="company" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="ownerId">Owner ID:</label>
-                <input type="text" name="ownerId" id="ownerId" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="pDate">Production Date:</label>
-                <input type="text" name="pDate" id="pDate" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="expDate">Expire Date:</label>
-                <input type="text" name="expDate" id="expDate" class="form-control">
-            </div>
-            <div class="form-group">
+            <div class="form-group" style="color:white">
                 <input type="file" name="img" id="img" accept="image/*">
             </div>
             <input type="hidden" name="_csrf" value="{{ csrfToken }}">

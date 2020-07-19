@@ -2,25 +2,30 @@
 <br />
 <br/>
 <center>
-        <h2>Profile</h2>
+        <h2 style="text-align: center;color:teal">{{title}}</h3>
 </center>
 
-
-<div class="container">
+{{#each user}}
+<div class="container" >
         <p1 class="position-relative">
-                <div class="caption">
-                        <h3>{{ Name }}</h3><br />
+                <div class="caption" style="color:white">
+                        <h3>{{ this.Name }}</h3><br />
                 </div>
-                <h5> <i class="fa fa-envelope-o" style="color:black"> {{ Email }}</i></h5><br />
-                <h5> <i class="fa fa-info-circle" style="color:black"> {{ ID }}</i></h5><br />
-                <h5> <i class="fa fa-phone" style="color:black"> {{ Phone }}</i></h5><br />
-                <h5> <i class="fa fa-user" style="color:black"> {{ UserType }}</i></h5><br />
-
-                <a href="{{concate "/view_transaction/" ID }}" class="btn btn-info" role="button">
+                <h5> <i class="fa fa-envelope-o" style="color:wheat"> {{ this.Email }}</i></h5><br />
+                <h5> <i class="fa fa-info-circle" style="color:wheat"> {{ this.NID }}</i></h5><br />
+                <h5> <i class="fa fa-phone" style="color:wheat"> {{ this.Phone }}</i></h5><br />
+                <h5> <i class="fa fa-user" style="color:wheat"> {{ this.UserType }}</i></h5><br />
+          
+          {{#if not_own}}
+          
+               {{else}}
+                <a href="{{concate "/view_transaction/" this.NID }}" class="btn btn-info" role="button">
                         View Previous Transactions
                 </a>
+          {{/if}}
         </p1>
         <pp class="position-relative">
-                <img src="{{concate "/"  Image }}" class="img-fluid" width="150" height="200" alt="Responsive image">
+                <img src="{{concate "/"  this.Img_Path }}" class="img-fluid" width="150" height="200" alt="Responsive image">
         </pp>
 </div>
+{{/each}}
