@@ -16,8 +16,8 @@ var csrfProtection=csrf();
 //var registerUser = require('./routes/functions/registerUser');
 
 var indexRouter = require('./routes/index');
-var signUpRouter = require('./routes/signup');
-var loginRouter = require('./routes/login');
+//var signUpRouter = require('./routes/signup');
+//var loginRouter = require('./routes/login');
 
 var usersRouter = require('./routes/user');
 
