@@ -16,7 +16,7 @@
     "author": "Hyperledger",
     "license": "Apache-2.0",
     "dependencies": {
-        "bcrypt": "^3.0.8",
+        "bcrypt": "^5.0.0",
         "body-parser": "^1.19.0",
         "cookie-parser": "^1.4.5",
         "csurf": "^1.11.0",
