@@ -44,3 +44,39 @@ his produced medicine in the database.
 (vi) Admin Login: An admin also has profile page, notification panel. Additionally, he can perform
 some administrative actions like – add infos of all verified dealers and producers with valid
 trade licence in the database.
+
+
+# Instructions
+## environment setup
+### in .bashrc file:
+#### set go path
+export GOROOT=/usr/local/go(downloaded files and dependencies)  
+export GOPATH=$HOME/go(my go files and pkg will be here)  
+export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+
+#### Set fabric binary and fabric CFG_PATH
+export MEDICHAIN_PATH=$HOME/Medicine_Supply_Chain/Medi_Chain  
+export FABRIC_CFG_PATH=$HOME/Medicine_Supply_Chain/Medi_Chain/config/  
+export PATH=$PATH:$MEDICHAIN_PATH/bin:$FABRIC_CFG_PATH  
+or accordingly your directory
+
+#### Vendoring dependencies
+go to $cd /Medicine_Supply_Chain/Medi_Chain/chaincode/medicine/go  
+and run $GO111MODULE=on go mod vendor
+
+If you have all environments and path variables are properly set up, then go to  
+$ cd Medicine_Supply_Chain/Medi_Chain/medicine  
+$ ./startFabric.sh
+
+
+#### then go to 
+$ cd javascript  
+$npm install or npm update  
+$ cd bin  
+$node www (server will start at port 8081)  
+#### In your browser
+type localhost:8081  
+type localhost:8081/enrollAdmin  
+type localhost:8081/registerUser  
+type localhost:8081/home  
+and surf......!!!!!!
