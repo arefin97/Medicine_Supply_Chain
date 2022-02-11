@@ -24,7 +24,7 @@
         "debug": "~2.6.9",
         "espress": "0.0.0",
         "express": "~4.16.1",
-        "express-handlebars": "^3.1.0",
+        "express-handlebars": "^5.3.1",
         "express-session": "^1.17.1",
         "express-validator": "^6.10.1",
         "fabric-ca-client": "~1.4.0",
